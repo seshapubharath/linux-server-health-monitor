@@ -2,14 +2,15 @@
 
 #!/bin/bash
 
+LOGFILE="../logs/health_report.log"
+
+{
 
 echo "===================================="
 echo "      SERVER HEALTH REPORT"
+echo "Generated: $(date)"
 echo "===================================="
 
-echo ""
-echo "Date & Time:"
-date
 
 echo ""
 echo "Hostname:"
@@ -39,3 +40,6 @@ echo ""
 echo "===================================="
 echo "      REPORT COMPLETED"
 echo "===================================="
+echo ""
+
+} | tee -a "$LOGFILE"
