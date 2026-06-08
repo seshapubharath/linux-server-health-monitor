@@ -2,6 +2,8 @@
 
 
 LOGFILE="/home/bchand/linux-server-health-monitor/logs/health_report.log"
+
+ALERTFILE="/home/bchand/linux-server-health-monitor/logs/alerts.log"
 {
 
 TOTAL_MEM=$(free | awk '/Mem:/ {print $2}')
@@ -93,6 +95,7 @@ echo "===================================="
          
 
       SERVICE_STATUS="HEALTHY"
+      FAILED_SERVICES=""
 
 for service in sshd crond NetworkManager
 do
@@ -106,6 +109,7 @@ do
 	   else
 		echo "$service : NOT RUNNING"	
 		SERVICE_STATUS="WARNING"
+	        FAILED_SERVICES="$FAILED_SERVICES $service"
 	  fi
 done
 
@@ -151,6 +155,27 @@ fi
 echo ""
 
 echo "OVERALL STATUS IS: $OVERALL_STATUS"
+
+if [ "$OVERALL_STATUS" = "ATTENTION REQUIRED" ]
+then
+    {
+	echo ""
+	echo "==============================="
+	echo "ALERT GENERATED"
+	echo "==============================="
+	echo "Timestamp: $(date)"
+	echo "CPU Status: $CPU_STATUS"
+	echo "Memory Status: $MEMORY_STATUS"
+	echo "Disk Status: $DISK_STATUS"
+	echo "Service Status: $SERVICE_STATUS"
+	echo "Failed Services: $FAILED_SERVICES"
+	echo "OVERALL STATUS: ATTENTION REQUIRED"
+	echo "================================="
+
+} >> "$ALERTFILE"
+fi
+
+
 
 echo ""
 echo "===================================="
