@@ -84,6 +84,34 @@ echo "Top 10 Processes by Memory Usage:"
 ps aux --sort=-%mem | head
 
 echo ""
+
+echo "===================================="
+
+echo "SERVICE STATUS"
+
+echo "===================================="
+         
+
+      SERVICE_STATUS="HEALTHY"
+
+for service in sshd crond NetworkManager
+do
+
+          STATUS=$(systemctl is-active $service)
+
+	   if [ "$STATUS" = "active" ]
+	   then
+	        echo "$service : RUNNING"
+
+	   else
+		echo "$service : NOT RUNNING"	
+		SERVICE_STATUS="WARNING"
+	  fi
+done
+
+
+
+echo ""
 echo "===================================="
 
 echo "SERVER HEALTH SUMMARY"
@@ -98,6 +126,9 @@ echo "DISK: $DISK_STATUS"
 
 echo "CPU: $CPU_STATUS"
 
+echo "Services: $SERVICE_STATUS"
+
+
 OVERALL_STATUS="HEALTHY - NO ACTION REQUIRED"
 
 if [ "$CPU_STATUS" = "WARNING" ]; then
@@ -109,6 +140,10 @@ if [ "$MEMORY_STATUS" = "WARNING" ]; then
 fi
  
 if [ "$DISK_STATUS" = "WARNING" ]; then
+    OVERALL_STATUS="ATTENTION REQUIRED"
+fi
+
+if [ "$SERVICE_STATUS" = "WARNING" ]; then
     OVERALL_STATUS="ATTENTION REQUIRED"
 fi
 
