@@ -14,9 +14,9 @@ MEMORY_USAGE=$((USED_MEM * 100 / TOTAL_MEM))
 
 DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d "%")
 
-CPU_IDLE=$(top -bn1 | grep "%Cpu" | awk '{print $8}' | tr -d ',')
+CPU_IDLE=$(vmstat 1 2 | tail -1 | awk '{print $15}')
 
-CPU_USAGE=$(awk "BEGIN {print 100 - $CPU_IDLE}")
+CPU_USAGE=$((100 - CPU_IDLE))
 
 echo "===================================="
 echo "      SERVER HEALTH REPORT"
@@ -32,40 +32,49 @@ echo ""
 echo "System Uptime:"
 uptime
 
+
 echo ""
+
 echo "Memory Usage: $MEMORY_USAGE%"
 
 if [ $MEMORY_USAGE -gt 80 ]
 
 then
-      echo "Memory status: WARNING"
+      MEMORY_STATUS="WARNING"
 else
-      echo "Memory status: HEALTHY"
+      MEMORY_STATUS="HEALTHY"
 fi
+
+echo "MEMORY Status: $MEMORY_STATUS"
+
+
 
 echo ""
 
-echo "cpu usage: $CPU_USAGE%"
+echo "CPU Usage: ${CPU_USAGE}%"
 
-CPU_USAGE_INT=$(printf "%.0f" "$CPU_USAGE")
-
-if [ $CPU_USAGE_INT -gt 80 ]
+if [ "$CPU_USAGE" -gt 80 ]
 then
-     echo "Cpu status: WARNING"
+     CPU_STATUS="WARNING"
 else
-     echo "Cpu status: HEALTHY"
+     CPU_STATUS="HEALTHY"
 fi
+
+echo "CPU Status: $CPU_STATUS"
 
 
 echo ""
+
 echo "Disk Usage: $DISK_USAGE%"
 
 if [ $DISK_USAGE -gt 80 ]
 then
-     echo "Disk Status: WARNING"
+     DISK_STATUS="WARNING"
 else
-     echo "Disk Status: HEALTHY"
+     DISK_STATUS="HEALTHY"
 fi
+
+echo "DISK Status: $DISK_STATUS"
 
 
 echo ""
@@ -78,8 +87,41 @@ ps aux --sort=-%mem | head
 
 echo ""
 echo "===================================="
+
+echo "SERVER HEALTH SUMMARY"
+
+echo "====================================="
+
+
+
+echo "MEMORY: $MEMORY_STATUS"
+
+echo "DISK: $DISK_STATUS"
+
+echo "CPU: $CPU_STATUS"
+
+OVERALL_STATUS="HEALTHY - NO ACTION REQUIRED"
+
+if [ "$CPU_STATUS" = "WARNING" ]; then
+    OVERALL_STATUS="ATTENTION REQUIRED"
+fi
+ 
+if [ "$MEMORY_STATUS" = "WARNING" ]; then
+    OVERALL_STATUS="ATTEBNTION REQUIRED"
+fi
+ 
+if [ "$DISK_STATUS" = "WARNING" ]; then
+    OVERALL_STATUS="ATTENTION REQUIRED"
+fi
+
+
+echo ""
+
+echo "OVERALL STATUS IS: $OVERALL_STATUS"
+
+echo ""
+echo "===================================="
 echo "      REPORT COMPLETED"
 echo "===================================="
-echo ""
 
 } | tee -a "$LOGFILE"
