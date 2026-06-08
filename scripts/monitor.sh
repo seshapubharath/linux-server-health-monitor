@@ -14,6 +14,10 @@ MEMORY_USAGE=$((USED_MEM * 100 / TOTAL_MEM))
 
 DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d "%")
 
+CPU_IDLE=$(top -bn1 | grep "%Cpu" | awk '{print $8}' | tr -d ',')
+
+CPU_USAGE=$(awk "BEGIN {print 100 - $CPU_IDLE}")
+
 echo "===================================="
 echo "      SERVER HEALTH REPORT"
 echo "Generated: $(date)"
@@ -37,6 +41,19 @@ then
       echo "Memory status: WARNING"
 else
       echo "Memory status: HEALTHY"
+fi
+
+echo ""
+
+echo "cpu usage: $CPU_USAGE%"
+
+CPU_USAGE_INT=$(printf "%.0f" "$CPU_USAGE")
+
+if [ $CPU_USAGE_INT -gt 80 ]
+then
+     echo "Cpu status: WARNING"
+else
+     echo "Cpu status: HEALTHY"
 fi
 
 
