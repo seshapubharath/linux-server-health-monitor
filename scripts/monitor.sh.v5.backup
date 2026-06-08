@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-LOGFILE="/home/bchand/linux-server-health-monitor/logs/health_report.log"
+LOGFILE="home/bchand/linux-server-health-monitor/logs/health_report.log"
 {
 
 TOTAL_MEM=$(free | awk '/Mem:/ {print $2}')
@@ -122,4 +122,4 @@ echo "===================================="
 echo "      REPORT COMPLETED"
 echo "===================================="
 
-} | tee -a "$LOGFILE"
+} >> "$LOGFILE"
