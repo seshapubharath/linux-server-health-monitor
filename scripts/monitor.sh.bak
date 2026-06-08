@@ -6,14 +6,6 @@ LOGFILE="../logs/health_report.log"
 
 {
 
-TOTAL_MEM=$(free | awk '/Mem:/ {print $2}')
-
-USED_MEM=$(free | awk '/Mem:/ {print $3}')
-
-MEMORY_USAGE=$((USED_MEM * 100 / TOTAL_MEM))
-
-DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d "%")
-
 echo "===================================="
 echo "      SERVER HEALTH REPORT"
 echo "Generated: $(date)"
@@ -29,27 +21,12 @@ echo "System Uptime:"
 uptime
 
 echo ""
-echo "Memory Usage: $MEMORY_USAGE%"
-
-if [ $MEMORY_USAGE -gt 80 ]
-
-then
-      echo "Memory status: WARNING"
-else
-      echo "Memory status: HEALTHY"
-fi
-
+echo "Memory Usage:"
+free -h
 
 echo ""
-echo "Disk Usage: $DISK_USAGE%"
-
-if [ $DISK_USAGE -gt 80 ]
-then
-     echo "Disk Status: WARNING"
-else
-     echo "Disk Status: HEALTHY"
-fi
-
+echo "Disk Usage:"
+df -h
 
 echo ""
 echo "Logged-in Users:"
