@@ -138,9 +138,9 @@ OVERALL_STATUS="HEALTHY - NO ACTION REQUIRED"
 if [ "$CPU_STATUS" = "WARNING" ]; then
     OVERALL_STATUS="ATTENTION REQUIRED"
 fi
- 
+
 if [ "$MEMORY_STATUS" = "WARNING" ]; then
-    OVERALL_STATUS="ATTEBNTION REQUIRED"
+    OVERALL_STATUS="ATTENTION REQUIRED"
 fi
  
 if [ "$DISK_STATUS" = "WARNING" ]; then
@@ -159,23 +159,36 @@ echo "OVERALL STATUS IS: $OVERALL_STATUS"
 if [ "$OVERALL_STATUS" = "ATTENTION REQUIRED" ]
 then
     {
-	echo ""
+
+
 	echo "==============================="
+
 	echo "ALERT GENERATED"
+
 	echo "==============================="
+
 	echo "Timestamp: $(date)"
+
 	echo "CPU Status: $CPU_STATUS"
+
 	echo "Memory Status: $MEMORY_STATUS"
+
 	echo "Disk Status: $DISK_STATUS"
+
 	echo "Service Status: $SERVICE_STATUS"
+
 	echo "Failed Services: $FAILED_SERVICES"
+
 	echo "OVERALL STATUS: ATTENTION REQUIRED"
+
 	echo "================================="
 
+
 } >> "$ALERTFILE"
+
+python3 /home/bchand/linux-server-health-monitor/scripts/send_alert.py
+
 fi
-
-
 
 echo ""
 echo "===================================="
