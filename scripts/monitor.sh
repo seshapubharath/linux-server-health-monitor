@@ -1,29 +1,38 @@
-========================
-Server Health Report
-========================
+#!/bin/bash
 
-Date:
-2025-06-12
+echo "===================================="
+echo "      SERVER HEALTH REPORT"
+echo "===================================="
 
-Hostname:
-localhost
+echo ""
+echo "Date & Time:"
+date
 
-Uptime:
-3 hours
+echo ""
+echo "Hostname:"
+hostname
 
-CPU Usage:
-15%
+echo ""
+echo "System Uptime:"
+uptime
 
-Memory Usage:
-40%
+echo ""
+echo "Memory Usage:"
+free -h
 
-Disk Usage:
-52%
+echo ""
+echo "Disk Usage:"
+df -h
 
-Logged In Users:
-bharath
+echo ""
+echo "Logged-in Users:"
+who
 
-Top Processes:
-firefox
-chrome
-python
+echo ""
+echo "Top 10 Processes by Memory Usage:"
+ps aux --sort=-%mem | head
+
+echo ""
+echo "===================================="
+echo "      REPORT COMPLETED"
+echo "===================================="
