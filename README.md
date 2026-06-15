@@ -28,7 +28,19 @@ linux-server-health-monitor/
 ├── .gitignore
 └── README.md
 
+## Release History
 
+### V1
+- Basic server monitoring
+
+### V2
+- Report logging
+
+### V3
+- Memory and disk health checks
+
+### V4
+- CPU utilization monitoring
 
 ## Sample Output
 
