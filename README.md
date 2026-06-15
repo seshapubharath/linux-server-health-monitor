@@ -49,11 +49,11 @@ The monitoring script generates a server health report containing:
 
 ### Monitoring Report
 
-![Monitor Output](screenshots/monitor-output.png)
+![Monitor Output](screenshots/monitor_output.png)
 
 ### Git Commit History
 
-![Git History](screenshots/Git-History.png)
+![Git History](screenshots/Git_History.png)
 
 ## Release History
 
