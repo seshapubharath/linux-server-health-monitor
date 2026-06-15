@@ -36,7 +36,7 @@ linux-server-health-monitor/
 
 ## Git Commit History
 
-![Git History](screenshots/Git_history.png)
+![Git History](screenshots/Git_History.png)
 
 ## Future Enhancements
 - Cron automation
