@@ -17,6 +17,14 @@ Linux Server Health Monitor is a Bash-based monitoring utility that provides ess
 - Disk utilization percentage monitoring
 - Threshold-based health status checks
 - Automatic report logging
+  
+- ## Version 4 Features
+
+- CPU utilization monitoring
+- Memory utilization monitoring
+- Disk utilization monitoring
+- Threshold-based health checks
+- Automatic report logging
 
 ## Technologies
 
