@@ -28,7 +28,7 @@ linux-server-health-monitor/
 ├── .gitignore
 └── README.md
 
-## Sample Output
+
 
 ## Sample Output
 
