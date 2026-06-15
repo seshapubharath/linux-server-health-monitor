@@ -1,42 +1,45 @@
+# Linux Server Health Monitor
 
-
-## Project Overview
-
-Linux Server Health Monitor is a Bash-based monitoring utility that provides essential server health metrics including uptime, memory utilization, disk usage, logged-in users, and running processes.
+## Overview
+A Bash-based Linux monitoring utility that collects and analyzes critical server health metrics.
 
 ## Features
-
-- Date and time reporting
-- Hostname information
-- System uptime monitoring
-- Memory utilization monitoring
-- Disk utilization monitoring
-- Logged-in user tracking
-- Top memory-consuming processes
-- Memory utilization percentage monitoring
-- Disk utilization percentage monitoring
-- Threshold-based health status checks
-- Automatic report logging
-  
-- ## Version 4 Features
-
 - CPU utilization monitoring
 - Memory utilization monitoring
 - Disk utilization monitoring
-- Threshold-based health checks
-- Automatic report logging
+- Health status checks (HEALTHY/WARNING)
+- Logged-in user monitoring
+- Top memory-consuming processes
+- Report logging
 
-## Technologies
-
+## Technologies Used
 - Linux
 - Bash Scripting
 - Git
 - GitHub
 
-## Future Enhancements
+## Project Structure
 
-- Log file generation
-- CPU utilization monitoring
+linux-server-health-monitor/
+├── logs/
+├── screenshots/
+├── scripts/
+│   └── monitor.sh
+├── .gitignore
+└── README.md
+
+## Sample Output
+
+## Sample Output
+
+![Monitor Output](screenshots/monitor-output.png)
+
+## Git Commit History
+
+![Git History](screenshots/git-history.png)
+
+## Future Enhancements
+- Cron automation
 - Email alerts
-- Cron job automation
-- Threshold-based warnings
+- Multi-server monitoring
+- Resource threshold customization
