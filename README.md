@@ -32,11 +32,11 @@ linux-server-health-monitor/
 
 ## Sample Output
 
-![Monitor Output](screenshots/monitor-output.png)
+![Monitor Output](screenshots/monitor_output.png)
 
 ## Git Commit History
 
-![Git History](screenshots/git-history.png)
+![Git History](screenshots/Git_history.png)
 
 ## Future Enhancements
 - Cron automation
