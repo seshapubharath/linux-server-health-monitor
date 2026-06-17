@@ -63,7 +63,7 @@ The monitoring script generates a server health report containing:
 
 ### Attention Required
 
-![Attention Required](screenshots/server_attention_required_case.png)
+![Attention Required](screenshots/server_attention_required_case.png.png)
 
 ## Release History
 
