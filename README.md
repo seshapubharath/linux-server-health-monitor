@@ -21,7 +21,10 @@ Linux Server Health Monitor is a Bash-based monitoring utility designed to autom
 - Alert generation for warning conditions
 - Incident logging through alerts.log
 - Service failure tracking
-
+- Automated email notifications
+- Gmail SMTP integration
+- Incident alert logging
+- Service monitoring
   
 ## Technologies Used
 
@@ -132,7 +135,14 @@ The monitoring script generates a server health report containing:
 - Generates alerts when warning conditions occur
 - Stores incidents in alerts.log
 - Tracks failed services
-  
+
+V9 - Email Alerting System
+
+- Added Gmail SMTP email notifications
+- Integrated monitoring with automated alerts
+- Added alert logging
+- Secured credentials using config.env
+
 ## Skills Demonstrated
 
 * Linux Administration
