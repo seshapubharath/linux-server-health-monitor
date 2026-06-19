@@ -79,7 +79,7 @@ The monitoring script generates a server health report containing:
 ![Service Warning](screenshots/services_warning.png)
 
 ### Service Failure (Alert will be generated)
-![Service Failure Alert](screenshots/Crond_Alert.png)
+![Service Failure Alert](screenshots/Crond_Alerts.png)
 
 ## Release History
 
