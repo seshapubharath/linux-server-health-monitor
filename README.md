@@ -4,9 +4,8 @@
 
 Linux Server Health Monitor is a Bash-based monitoring utility designed to automate the collection and analysis of critical Linux server health metrics. The tool helps system administrators and support engineers monitor CPU, memory, and disk utilization while maintaining historical logs for troubleshooting and operational analysis.
 
-## Features
 
-- ## Features
+## Features
 
 - CPU utilization monitoring
 - Memory utilization monitoring
@@ -19,6 +18,10 @@ Linux Server Health Monitor is a Bash-based monitoring utility designed to autom
 - Top memory-consuming processes
 - Report logging
 - Cron-based automation
+- Alert generation for warning conditions
+- Incident logging through alerts.log
+- Service failure tracking
+
   
 ## Technologies Used
 
@@ -29,15 +32,15 @@ Linux Server Health Monitor is a Bash-based monitoring utility designed to autom
 
 ## Project Structure
 
-```text
 linux-server-health-monitor/
 ├── logs/
+│   ├── health_report.log
+│   └── alerts.log
 ├── screenshots/
 ├── scripts/
 │   └── monitor.sh
 ├── .gitignore
 └── README.md
-```
 
 ## Sample Output
 
@@ -75,6 +78,8 @@ The monitoring script generates a server health report containing:
 
 ![Service Warning](screenshots/services_warning.png)
 
+### Service Failure (Alert will be generated)
+![Service Failure Alert](screenshots/
 
 ## Release History
 
@@ -118,6 +123,11 @@ The monitoring script generates a server health report containing:
 - Integrated service health into overall server status
 - Generates warning when critical services are unavailable
 
+### V8
+- Added alert engine
+- Generates alerts when warning conditions occur
+- Stores incidents in alerts.log
+- Tracks failed services
   
 ## Skills Demonstrated
 
