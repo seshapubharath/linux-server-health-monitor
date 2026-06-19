@@ -67,13 +67,13 @@ The monitoring script generates a server health report containing:
 
 ![Attention Required](screenshots/server_attention_required_case.png)
 
-### Healthy Server
+### Services Running
 
-![Healthy Server](screenshots/)
+![Services Running](screenshots/services_Running.png)
 
-### Attention Required
+### Attention Required (Service warning)
 
-![Attention Required](screenshots/)
+![Service Warning](screenshots/services_warning.png)
 
 
 ## Release History
