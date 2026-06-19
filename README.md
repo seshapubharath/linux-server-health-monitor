@@ -32,6 +32,7 @@ Linux Server Health Monitor is a Bash-based monitoring utility designed to autom
 
 ## Project Structure
 
+''' text
 linux-server-health-monitor/
 ├── logs/
 │   ├── health_report.log
@@ -41,6 +42,7 @@ linux-server-health-monitor/
 │   └── monitor.sh
 ├── .gitignore
 └── README.md
+'''
 
 ## Sample Output
 
@@ -78,7 +80,7 @@ The monitoring script generates a server health report containing:
 
 ![Service Warning](screenshots/services_warning.png)
 
-### Service Failure (Alert will be generated)
+### Service Failure (Alert will be generated with service details)
 ![Service Failure Alert](screenshots/Crond_Alerts.png)
 
 ## Release History
