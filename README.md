@@ -88,6 +88,8 @@ The monitoring script generates a server health report containing:
 ### Service Failure (Alert will be generated with service details)
 ![Service Failure Alert](screenshots/Crond_Alerts.png)
 
+### Email Alert sent successfully
+![](screenshots/Email_sent_successfully.png)
 ## Release History
 
 ### Version 1.0
