@@ -88,7 +88,7 @@ The monitoring script generates a server health report containing:
 ### Service Failure (Alert will be generated with service details)
 ![Service Failure Alert](screenshots/Crond_Alerts.png)
 
-### Email Alert sent successfully
+### Email Alert sent successfully 
 ![](screenshots/Email_sent_successfully.png)
 
 ### Email Alert
@@ -142,7 +142,7 @@ The monitoring script generates a server health report containing:
 - Stores incidents in alerts.log
 - Tracks failed services
 
-V9 - Email Alerting System
+### V9 - Email Alerting System
 
 - Added Gmail SMTP email notifications
 - Integrated monitoring with automated alerts
