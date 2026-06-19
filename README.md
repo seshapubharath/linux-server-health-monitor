@@ -133,11 +133,12 @@ The monitoring script generates a server health report containing:
 
 ## Future Enhancements
 
-* Cron-based automated execution
-* Email alert notifications
-* Multi-server monitoring
-* Configurable alert thresholds
-* Performance trend analysis
+- Email alerts for warning conditions
+- Log rotation and archiving
+- AWS EC2 deployment
+- Multi-server monitoring
+- Custom threshold configuration
+- Web dashboard for health reports
 
 
 ## Author
