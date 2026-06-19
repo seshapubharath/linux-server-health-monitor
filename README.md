@@ -12,6 +12,7 @@ Linux Server Health Monitor is a Bash-based monitoring utility designed to autom
 - Threshold-based health checks
 - Overall server health summary 
 - Consolidated system status reporting
+- Cron-based automation
 - Logged-in user monitoring
 - Top memory-consuming process analysis
 - Automated report logging
@@ -94,6 +95,13 @@ The monitoring script generates a server health report containing:
 * Consolidated CPU, Memory, and Disk status
 * Added ATTENTION REQUIRED / HEALTHY status reporting
 
+### V6 - Cron Automation
+
+- Added cron scheduling
+- Automated health report generation
+- Reports generated every 5 minutes (configurable)
+- No manual execution required
+  
 ## Skills Demonstrated
 
 * Linux Administration
