@@ -93,6 +93,7 @@ The monitoring script generates a server health report containing:
 
 ### Email Alert
 ![](screenshots/Email_Alert_Received.png)
+![](screenshots/email.png)
 ## Release History
 
 ### Version 1.0
