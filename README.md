@@ -32,7 +32,9 @@ Linux Server Health Monitor is a Bash-based monitoring utility designed to autom
 
 ## Project Structure
 
-''' text
+## Project Structure 
+
+```text
 linux-server-health-monitor/
 ├── logs/
 │   ├── health_report.log
@@ -42,7 +44,7 @@ linux-server-health-monitor/
 │   └── monitor.sh
 ├── .gitignore
 └── README.md
-'''
+```
 
 ## Sample Output
 
