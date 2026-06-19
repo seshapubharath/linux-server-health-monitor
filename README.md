@@ -90,6 +90,9 @@ The monitoring script generates a server health report containing:
 
 ### Email Alert sent successfully
 ![](screenshots/Email_sent_successfully.png)
+
+### Email Alert
+![](screenshots/Email_Alert_Received.png)
 ## Release History
 
 ### Version 1.0
