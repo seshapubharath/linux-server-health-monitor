@@ -193,7 +193,7 @@ The monitoring script generates a detailed server health report containing:
 
 ## Current Version
 
-**Latest Release:** V9.1
+**Latest Release:** V10.0
 
 ### Completed Milestones
 
@@ -209,6 +209,7 @@ The monitoring script generates a detailed server health report containing:
 | V8      | Alert Engine & Incident Logging |
 | V9      | Gmail SMTP Email Notifications  |
 | V9.1    | Enhanced Email Alert Content    |
+| V10.0   | Log Rotation                    |
 
 ---
 
