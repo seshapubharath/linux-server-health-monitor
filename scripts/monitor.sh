@@ -4,7 +4,31 @@
 LOGFILE="/home/bchand/linux-server-health-monitor/logs/health_report.log"
 
 ALERTFILE="/home/bchand/linux-server-health-monitor/logs/alerts.log"
-{
+
+rotate_log() {
+	local logfile=$1
+	local max_size=1048576 
+
+	if [ -f "$logfile" ]; then
+	    size=$(stat -c%s "$logfile")
+
+	if [ "$size" -ge "$max_size" ]; then
+
+	  [ -f "$(logfile).2" ] && rm -f "$(logfile).2"
+	  [ -f "$(logfile).2" ] && mv "$(logfile).1" "$(logfile).2"
+	  mv "$logfile" "$(logfile).1"
+
+	  touch "$logfile"
+
+	  echo "$(date) - Log rotated: $logfile -> ${logfile}.1"
+	fi
+        fi
+}
+
+rotate_log "$LOGFILE"
+
+rotate_log "$ALERTFILE"
+
 
 TOTAL_MEM=$(free | awk '/Mem:/ {print $2}')
 
@@ -17,11 +41,12 @@ DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d "%")
 CPU_IDLE=$(vmstat 1 2 | tail -1 | awk '{print $15}')
 
 CPU_USAGE=$((100 - CPU_IDLE))
+{
 
 echo "===================================="
 echo "      SERVER HEALTH REPORT"
 echo "Generated: $(date)"
-echo "===================================="
+echo "====================================="
 
 
 echo ""
@@ -208,7 +233,7 @@ then
 
 	echo "CPU Status: $CPU_STATUS"
 
-	echo "Memory Status: $MEMORY_STATUS"
+
 
 	echo "Disk Status: $DISK_STATUS"
 
@@ -216,7 +241,7 @@ then
 
 	echo ""
 
-	echo "Failed Sevices:"
+	echo "Failed Services:"
 
 	echo "$FAILED_SERVICES"
 
@@ -241,7 +266,7 @@ fi
 
 echo ""
 echo "===================================="
-echo "      REPORT COMPLETED"
+echo "REPORT COMPLETED"
 echo "===================================="
 
 } | tee -a "$LOGFILE"
