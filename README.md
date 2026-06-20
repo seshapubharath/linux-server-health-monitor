@@ -56,6 +56,10 @@ The project demonstrates real-world Linux system monitoring, automation, inciden
 * Detailed health alert emails
 * Secure credential management using config.env
 
+### Log Rotation
+* Automated log rotation
+* Log retention management
+
 ---
 
 ## Technologies Used
@@ -273,6 +277,13 @@ The monitoring script generates a detailed server health report containing:
 * Detailed health summary emails
 * Failed service information included in alerts
 * Professional email formatting
+
+### V10 - Log Rotation & Retention
+
+- Added automated log rotation
+- Prevents excessive log growth
+- Maintains historical log archives
+- Added rotation activity logging
 
 ---
 
