@@ -150,6 +150,10 @@ The monitoring script generates a server health report containing:
 - Added alert logging
 - Secured credentials using config.env
 
+### V9.1 - Enhanced The Alert Email Content
+
+- Added detailed information about the server health alert
+
 ## Skills Demonstrated
 
 * Linux Administration
