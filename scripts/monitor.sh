@@ -158,6 +158,8 @@ echo "OVERALL STATUS IS: $OVERALL_STATUS"
 
 if [ "$OVERALL_STATUS" = "ATTENTION REQUIRED" ]
 then
+
+	EMAIL_REPORT="/tmp/email_report.txt"
     {
 
 
@@ -169,13 +171,17 @@ then
 
 	echo "Timestamp: $(date)"
 
-	echo "CPU Status: $CPU_STATUS"
+	echo ""
+
+	echo "CPU_Status: $CPU_STATUS"
 
 	echo "Memory Status: $MEMORY_STATUS"
 
 	echo "Disk Status: $DISK_STATUS"
 
 	echo "Service Status: $SERVICE_STATUS"
+
+	echo ""
 
 	echo "Failed Services: $FAILED_SERVICES"
 
@@ -186,7 +192,50 @@ then
 
 } >> "$ALERTFILE"
 
-python3 /home/bchand/linux-server-health-monitor/scripts/send_alert.py
+
+{
+	echo "===================================="
+
+	echo "LINUX SERVER HEALTH ALERT"
+
+	echo "===================================="
+
+	echo ""
+
+	echo "Timestamp: $(date)"
+
+	echo ""
+
+	echo "CPU Status: $CPU_STATUS"
+
+	echo "Memory Status: $MEMORY_STATUS"
+
+	echo "Disk Status: $DISK_STATUS"
+
+	echo "Service Status: $SERVICE_STATUS"
+
+	echo ""
+
+	echo "Failed Sevices:"
+
+	echo "$FAILED_SERVICES"
+
+	echo ""
+
+	echo "Overall Status"
+
+	echo "$OVERALL_STATUS"
+
+	echo ""
+
+	echo "Recommended Action:"
+
+	echo "Check the failed services and review server logs."
+
+} > "$EMAIL_REPORT"
+
+
+python3 /home/bchand/linux-server-health-monitor/scripts/send_alert.py "$EMAIL_REPORT"
 
 fi
 

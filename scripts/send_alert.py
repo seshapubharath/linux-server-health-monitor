@@ -1,4 +1,5 @@
 import os
+import sys
 import smtplib
 
 from email.message import EmailMessage
@@ -20,18 +21,18 @@ SENDER_EMAIL = config["SENDER_EMAIL"]
 APP_PASSWORD = config["APP_PASSWORD"]
 RECEIVER_EMAIL = config["RECEIVER_EMAIL"]
 
+email_report = sys.argv[1]
+
+with open(email_report, "r") as f:
+    email_body = f.read()
+
 
 msg = EmailMessage()
-msg["Subject"] = "Linux Server Health Monitor Alert"
+msg["Subject"] = "[CRITICAL] Linux Server Health Monitor Alert"
 msg["From"] = SENDER_EMAIL
 msg["To"] = RECEIVER_EMAIL
 
-msg.set_content(""" 
-ALERT GENERATED 
-A warning condition was detected on your linux server. 
-Please check the monitoring logs. 
-- Linux Server Health Monitor
-""")
+msg.set_content(email_body)
 
 try:
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
