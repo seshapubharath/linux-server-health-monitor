@@ -2,8 +2,7 @@
 
 ## Overview
 
-Linux Server Health Monitor is a Linux administration project developed using Bash and Python to automate the monitoring of critical server health metrics. The solution continuously monitors CPU, memory, disk usage, and critical system services while generating detailed reports, incident logs, and automated email notifications for proactive system administration.
-
+Production-style Linux server monitoring solution built with Bash and Python for automated health checks, alerting, resource monitoring, and operational reporting following Linux Administration and SRE practices.
 The project demonstrates real-world Linux system monitoring, automation, incident detection, alert management, cron scheduling, and SMTP-based email notifications commonly used in production environments.
 
 ---
