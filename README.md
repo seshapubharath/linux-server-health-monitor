@@ -9,7 +9,6 @@ The project follows a production-inspired architecture by separating data collec
 The monitoring system implements **state-aware alerting**, ensuring notifications are sent only when the server health changes, preventing alert fatigue and duplicate notifications during scheduled monitoring.
 
 The project demonstrates Linux system administration, automation, monitoring, alerting, logging, incident detection, JSON data processing, and operational reporting practices commonly used in DevOps and Site Reliability Engineering (SRE).
----
 
 ## Project Highlights
 
