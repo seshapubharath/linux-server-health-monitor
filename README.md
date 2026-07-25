@@ -187,11 +187,13 @@ The monitoring script generates a detailed server health report containing:
 ### Email Alert(Critical) Content
 
 ![Email Content](screenshots/Email_contents.png)
+
 ![Email Content](screenshots/Email2.png)
 
 ### Email Alert(OK) Content
 
 ![Email Content](screenshots/Email_Ok.png)
+
 ![Email Content](screenshots/email_ok2.png)
 
 
