@@ -1,5 +1,6 @@
 #!/bin/bash
 
+STATE_FILE="$BASE_DIR/logs/server_state.txt"
 BASE_DIR="/home/bchand/linux-server-health-monitor"
 
 source "$BASE_DIR/scripts/logger.sh"
@@ -180,6 +181,11 @@ else
     log_success "Overall Status : HEALTHY"
 fi
 
+PREVIOUS_STATUS=""
+
+if [ -f "$STATE_FILE" ]; then
+    PREVIOUS_STATUS=$(cat "$STATE_FILE")
+fi
 
 REPORT_JSON="/tmp/server_report.json"
 
@@ -242,7 +248,19 @@ cat >> "$REPORT_JSON" <<EOF
 }
 EOF
 
-python3 "$BASE_DIR/scripts/send_alert.py" "$REPORT_JSON"
+if [ "$OVERALL_STATUS" != "$PREVIOUS_STATUS" ]; then
+
+    echo "$OVERALL_STATUS" > "$STATE_FILE"
+
+    python3 "$BASE_DIR/scripts/send_alert.py" "$REPORT_JSON"
+
+    log_info "Status changed. Email notification sent."
+
+else
+
+    log_info "No status change. Email notification skipped."
+
+fi
 
 echo ""
 print_line
