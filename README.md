@@ -2,12 +2,13 @@
 
 ## Overview
 
-Linux Server Health Monitor is a modular server monitoring solution built using Bash and Python that automates Linux health checks, service monitoring, incident detection, and email alerting.
+Linux Server Health Monitor is a modular server monitoring solution built using Bash and Python that automates Linux health checks, service monitoring, incident detection, and intelligent email alerting.
 
 The project follows a production-inspired architecture by separating data collection from presentation. Bash collects system metrics and generates structured JSON reports, while Python converts the collected data into professional HTML email dashboards delivered through Gmail SMTP.
 
-The project demonstrates Linux system administration, automation, monitoring, alerting, logging, incident detection, JSON data processing, and operational reporting practices commonly used in DevOps and Site Reliability Engineering (SRE).
+The monitoring system implements **state-aware alerting**, ensuring notifications are sent only when the server health changes, preventing alert fatigue and duplicate notifications during scheduled monitoring.
 
+The project demonstrates Linux system administration, automation, monitoring, alerting, logging, incident detection, JSON data processing, and operational reporting practices commonly used in DevOps and Site Reliability Engineering (SRE).
 ---
 
 ## Project Highlights
@@ -16,8 +17,9 @@ The project demonstrates Linux system administration, automation, monitoring, al
 - Modular Bash Architecture
 - JSON-Based Monitoring Reports
 - Professional HTML Email Dashboard
+- Intelligent State-Based Alerting
 - Service Availability Monitoring
-- Incident Detection & Alerting
+- Incident Detection & Recovery Notifications
 - Cron-Based Scheduled Execution
 - Log Rotation & Retention
 - Gmail SMTP Email Notifications
@@ -58,12 +60,31 @@ The project demonstrates Linux system administration, automation, monitoring, al
 
 ### Automation & Alerting
 
-* Cron-based scheduled execution
-* Automated incident detection
-* Gmail SMTP email notifications
-* Detailed health alert emails
-* Secure credential management using config.env
+- Cron-based scheduled execution
+- Automated incident detection
+- Intelligent state-based alerting
+- Recovery notification emails
+- HTML email dashboard generation
+- Gmail SMTP email notifications
+- Secure credential management using config.env
+- Duplicate alert prevention
 
+### Intelligent Alert Management
+
+The monitoring system maintains the previous server health state and sends notifications **only when the server status changes**.
+
+This prevents duplicate alerts during scheduled monitoring while ensuring administrators receive notifications whenever the server enters or recovers from an unhealthy state.
+
+State transitions include:
+
+- HEALTHY → ATTENTION REQUIRED
+- ATTENTION REQUIRED → HEALTHY
+- HEALTHY → WARNING
+- WARNING → HEALTHY
+- Service Failure Detection
+- Service Recovery Detection
+
+  
 ### Log Rotation
 * Automated log rotation
 * Log retention management
@@ -96,7 +117,8 @@ linux-server-health-monitor/
 
 ├── logs/
 │   ├── health_report.log
-│   └── alerts.log
+│   ├── alerts.log
+│   └── server_state.txt
 
 ├── reports/
 │   └── server_report.json
@@ -115,7 +137,7 @@ linux-server-health-monitor/
 ## Monitoring Workflow
 
 ```text
-                 monitor.sh
+                               monitor.sh
                       │
                       ▼
           Collect System Metrics
@@ -126,28 +148,86 @@ linux-server-health-monitor/
                       ▼
           Generate server_report.json
                       │
-        ┌─────────────┴─────────────┐
-        ▼                           ▼
-Terminal Dashboard          send_alert.py
-                                    │
-                                    ▼
-                    Generate HTML Dashboard
-                                    │
-                                    ▼
-                         Gmail SMTP Delivery
+                      ▼
+          Compare Previous State
+                      │
+         ┌────────────┴────────────┐
+         │                         │
+    No Change               Status Changed
+         │                         │
+         ▼                         ▼
+ Skip Notification        Generate HTML Dashboard
+                                   │
+                                   ▼
+                          Send Email Notification
+                                   │
+                                   ▼
+                      Update server_state.txt
 ```
+
+## Intelligent Alert Flow
+
+```text
+Cron Scheduler (Every 5 Minutes)
+
+          │
+
+          ▼
+
+Collect Server Metrics
+
+          │
+
+          ▼
+
+Determine Overall Health
+
+          │
+
+          ▼
+
+Read Previous Status
+
+          │
+
+          ▼
+
+Status Changed?
+
+     ┌───────────────┐
+
+   No │               │ Yes
+
+      ▼               ▼
+
+ Skip Email      Generate Alert
+
+                     │
+
+                     ▼
+
+          Send HTML Email Report
+
+                     │
+
+                     ▼
+
+        Update Previous State File
+```
+
 ## Sample Output
 
 The monitoring solution generates:
 
 - Interactive terminal health dashboard
 - JSON monitoring report
-- Professional HTML email report
+- Professional HTML email dashboard
 - Historical monitoring logs
 - Alert logs
+- Intelligent state-based email notifications
+- Recovery acknowledgement emails
 - Service status summary
 - Overall health assessment
-
 ---
 
 
@@ -254,7 +334,7 @@ The monitoring solution generates:
 ### Completed Milestones
 
 | Version | Feature |
-|----------|---------------------------------------------|
+|----------|----------------------------------------------|
 | V1 | Basic Server Monitoring |
 | V2 | Report Logging |
 | V3 | Memory & Disk Monitoring |
@@ -269,6 +349,7 @@ The monitoring solution generates:
 | V10.1 | Modular Bash Architecture |
 | V10.2 | JSON Report Generation |
 | V10.3 | HTML Dashboard Email |
+| **V10.4** | **State-Based Intelligent Alerting** |
 
 ---
 
@@ -345,6 +426,16 @@ The monitoring solution generates:
 - Maintains historical log archives
 - Added rotation activity logging
 
+### Version 10.4
+
+- Implemented intelligent state-aware alerting
+- Added server_state.txt for previous status tracking
+- Prevented duplicate email notifications
+- Added automatic recovery notifications
+- Alert emails are triggered only on health state transitions
+- Reduced notification noise during cron-based monitoring
+- Improved monitoring workflow to match enterprise monitoring practices
+
 ---
 
 ## Skills Demonstrated
@@ -355,14 +446,16 @@ The monitoring solution generates:
 - JSON Data Processing
 - HTML Email Generation
 - Linux Service Management
-- System Monitoring
+- State-Based Alerting
 - Incident Detection
-- Log Rotation
+- Recovery Notification
+- System Monitoring
 - Cron Automation
 - SMTP Email Integration
+- Log Rotation
 - Production Logging
-- Git Version Control
 - Shell Script Modularization
+- Git Version Control
 ---
 
 ## Future Enhancements
@@ -377,6 +470,8 @@ The monitoring solution generates:
 - Grafana Visualization
 - Prometheus Exporter
 - Kubernetes Deployment
+- Alert Escalation Policies
+- Persistent Database for Alert History
 
 ---
 
@@ -387,9 +482,11 @@ The monitoring solution generates:
 - 3 Critical Services Monitored
 - JSON-Based Reporting
 - HTML Email Dashboard
-- Automated Incident Detection
-- Gmail SMTP Integration
+- Intelligent State-Based Alerting
+- Automated Recovery Notifications
 - Cron-Based Automation
+- Gmail SMTP Integration
+- Modular Linux Monitoring Architecture
 
   
 ## Author
