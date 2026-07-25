@@ -2,20 +2,27 @@
 
 ## Overview
 
-Production-style Linux server monitoring solution built with Bash and Python for automated health checks, alerting, resource monitoring, and operational reporting following Linux Administration and SRE practices.
-The project demonstrates real-world Linux system monitoring, automation, incident detection, alert management, cron scheduling, and SMTP-based email notifications commonly used in production environments.
+Linux Server Health Monitor is a modular server monitoring solution built using Bash and Python that automates Linux health checks, service monitoring, incident detection, and email alerting.
+
+The project follows a production-inspired architecture by separating data collection from presentation. Bash collects system metrics and generates structured JSON reports, while Python converts the collected data into professional HTML email dashboards delivered through Gmail SMTP.
+
+The project demonstrates Linux system administration, automation, monitoring, alerting, logging, incident detection, JSON data processing, and operational reporting practices commonly used in DevOps and Site Reliability Engineering (SRE).
 
 ---
 
 ## Project Highlights
 
-* Automated Linux Server Health Monitoring
-* Cron-Based Scheduled Execution
-* Service Availability Monitoring
-* Incident Logging and Tracking
-* Gmail SMTP Email Notifications
-* Secure Credential Management
-* Git Version Controlled Development
+- Automated Linux Server Health Monitoring
+- Modular Bash Architecture
+- JSON-Based Monitoring Reports
+- Professional HTML Email Dashboard
+- Service Availability Monitoring
+- Incident Detection & Alerting
+- Cron-Based Scheduled Execution
+- Log Rotation & Retention
+- Gmail SMTP Email Notifications
+- Secure Credential Management
+- Git Version Controlled Development
 
 ---
 
@@ -41,11 +48,13 @@ The project demonstrates real-world Linux system monitoring, automation, inciden
 
 ### Logging & Reporting
 
-* Automated health report generation
-* Historical report storage
-* Alert logging
-* Incident tracking
-* Health status classification (HEALTHY / WARNING)
+- Automated health report generation
+- JSON report generation
+- Historical report storage
+- HTML dashboard generation
+- Alert logging
+- Incident tracking
+- Health status classification (HEALTHY / WARNING)
 
 ### Automation & Alerting
 
@@ -63,13 +72,15 @@ The project demonstrates real-world Linux system monitoring, automation, inciden
 
 ## Technologies Used
 
-* Linux (RHEL 9)
-* Bash Scripting
-* Python 3
-* Cron
-* Gmail SMTP
-* Git
-* GitHub
+- Linux (Rocky Linux / RHEL)
+- Bash Scripting
+- Python 3
+- JSON
+- HTML & CSS
+- Gmail SMTP
+- Cron
+- Git
+- GitHub
 
 ---
 
@@ -77,16 +88,26 @@ The project demonstrates real-world Linux system monitoring, automation, inciden
 
 ```text
 linux-server-health-monitor/
+
+├── config.conf
+├── config.env
+├── README.md
+├── .gitignore
+
 ├── logs/
 │   ├── health_report.log
 │   └── alerts.log
+
+├── reports/
+│   └── server_report.json
+
 ├── screenshots/
-├── scripts/
-│   ├── monitor.sh
-│   └── send_alert.py
-├── config.env          # Ignored by Git
-├── .gitignore
-└── README.md
+
+└── scripts/
+    ├── monitor.sh
+    ├── logger.sh
+    ├── utils.sh
+    └── send_alert.py
 ```
 
 ---
@@ -94,57 +115,82 @@ linux-server-health-monitor/
 ## Monitoring Workflow
 
 ```text
-monitor.sh
-     │
-     ▼
-Collect System Metrics
-     │
-     ▼
-Evaluate Health Status
-     │
-     ▼
-Generate Health Report
-     │
-     ▼
-Write to health_report.log
-     │
-     ▼
-Check Critical Services
-     │
-     ▼
-ATTENTION REQUIRED?
-     │
- ┌───┴────┐
- │        │
-No       Yes
- │        │
- ▼        ▼
-End    Generate Alert
-             │
-             ▼
-      Write alerts.log
-             │
-             ▼
-      Send Email Alert
+                 monitor.sh
+                      │
+                      ▼
+          Collect System Metrics
+                      │
+                      ▼
+          Evaluate Resource Health
+                      │
+                      ▼
+          Generate server_report.json
+                      │
+        ┌─────────────┴─────────────┐
+        ▼                           ▼
+Terminal Dashboard          send_alert.py
+                                    │
+                                    ▼
+                    Generate HTML Dashboard
+                                    │
+                                    ▼
+                         Gmail SMTP Delivery
 ```
-
----
-
 ## Sample Output
 
-The monitoring script generates a detailed server health report containing:
+The monitoring solution generates:
 
-* CPU Usage and Status
-* Memory Usage and Status
-* Disk Usage and Status
-* Service Status
-* Logged-in Users
-* Top Processes by Memory Consumption
-* System Uptime
-* Hostname Information
-* Overall Server Health Summary
+- Interactive terminal health dashboard
+- JSON monitoring report
+- Professional HTML email report
+- Historical monitoring logs
+- Alert logs
+- Service status summary
+- Overall health assessment
 
 ---
+
+
+## Architecture
+
+```text
+                Linux Server
+
+                     │
+                     ▼
+
+            monitor.sh (Bash)
+
+     ┌──────────────┼──────────────┐
+     ▼              ▼              ▼
+
+ Terminal       health_report.log   server_report.json
+
+                                      │
+
+                                      ▼
+
+                          send_alert.py (Python)
+
+                                      │
+
+                                      ▼
+
+                        HTML Email Dashboard
+
+                                      │
+
+                                      ▼
+
+                           Gmail SMTP Server
+
+                                      │
+
+                                      ▼
+
+                                 Administrator
+```
+
 
 ## Screenshots
 
@@ -207,19 +253,22 @@ The monitoring script generates a detailed server health report containing:
 
 ### Completed Milestones
 
-| Version | Feature                         |
-| ------- | ------------------------------- |
-| V1      | Basic Server Monitoring         |
-| V2      | Report Logging                  |
-| V3      | Memory & Disk Health Checks     |
-| V4      | CPU Monitoring                  |
-| V5      | Overall Health Summary          |
-| V6      | Cron Automation                 |
-| V7      | Service Monitoring              |
-| V8      | Alert Engine & Incident Logging |
-| V9      | Gmail SMTP Email Notifications  |
-| V9.1    | Enhanced Email Alert Content    |
-| V10.0   | Log Rotation                    |
+| Version | Feature |
+|----------|---------------------------------------------|
+| V1 | Basic Server Monitoring |
+| V2 | Report Logging |
+| V3 | Memory & Disk Monitoring |
+| V4 | CPU Monitoring |
+| V5 | Overall Health Summary |
+| V6 | Cron Automation |
+| V7 | Service Monitoring |
+| V8 | Incident Logging |
+| V9 | Gmail SMTP Alerts |
+| V9.1 | Enhanced Email Content |
+| V10 | Log Rotation |
+| V10.1 | Modular Bash Architecture |
+| V10.2 | JSON Report Generation |
+| V10.3 | HTML Dashboard Email |
 
 ---
 
@@ -300,34 +349,49 @@ The monitoring script generates a detailed server health report containing:
 
 ## Skills Demonstrated
 
-* Linux Administration
-* Bash Scripting
-* Python Automation
-* System Monitoring
-* Service Monitoring
-* Cron Scheduling
-* Email Alerting (SMTP)
-* Incident Response
-* Log Management
-* Troubleshooting
-* Git Version Control
-* System Health Assessment
-
+- Linux Administration
+- Bash Scripting
+- Python Automation
+- JSON Data Processing
+- HTML Email Generation
+- Linux Service Management
+- System Monitoring
+- Incident Detection
+- Log Rotation
+- Cron Automation
+- SMTP Email Integration
+- Production Logging
+- Git Version Control
+- Shell Script Modularization
 ---
 
 ## Future Enhancements
 
-* Log Rotation & Retention
-* AWS EC2 Deployment
-* Multi-Server Monitoring
-* Custom Threshold Configuration
-* Configuration File Based Thresholds
-* Slack / Teams Notifications
-* Web Dashboard for Monitoring Reports
-* Monitoring Metrics Visualization
+- Docker Container Support
+- Multi-Server Monitoring
+- AWS EC2 Deployment
+- Configuration Dashboard
+- Slack / Microsoft Teams Notifications
+- REST API Integration
+- Web Dashboard
+- Grafana Visualization
+- Prometheus Exporter
+- Kubernetes Deployment
 
 ---
 
+## Project Metrics
+
+- 4 Modular Scripts
+- 10+ Monitoring Features
+- 3 Critical Services Monitored
+- JSON-Based Reporting
+- HTML Email Dashboard
+- Automated Incident Detection
+- Gmail SMTP Integration
+- Cron-Based Automation
+
+  
 ## Author
 
 **Bharath Chand Seshapu**
