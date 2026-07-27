@@ -1,37 +1,25 @@
-
 {
-  "hostname": "localhost.localdomain",
-  "os": "Rocky Linux 9.8",
-  "kernel": "5.14.0-570.el9.x86_64",
-  "ip": "192.168.56.102",
-  "time": "Fri Jul 24 17:22:14 EDT 2026",
-  "overall_status": "HEALTHY",
-  "resources": {
-    "cpu": {
-      "usage": 21,
-      "status": "HEALTHY"
+    "hostname":"localhost.localdomain",
+    "os":"Rocky Linux 9.8 (Blue Onyx)",
+    "kernel":"5.14.0-687.12.1.el9_8.x86_64",
+    "ip":"10.0.2.15",
+    "time":"Mon Jul 27 01:20:03 PM EDT 2026",
+    "overall_status":"HEALTHY",
+    "resources":{
+        "cpu":{
+            "usage":2,
+            "status":"HEALTHY"
+        },
+        "memory":{
+            "usage":49,
+            "status":"HEALTHY"
+        },
+        "disk":{
+            "usage":11,
+            "status":"HEALTHY"
+        }
     },
-    "memory": {
-      "usage": 37,
-      "status": "HEALTHY"
-    },
-    "disk": {
-      "usage": 48,
-      "status": "HEALTHY"
-    }
-  },
-  "services": [
-    {
-      "name": "sshd",
-      "status": "RUNNING"
-    },
-    {
-      "name": "crond",
-      "status": "RUNNING"
-    },
-    {
-      "name": "NetworkManager",
-      "status": "RUNNING"
-    }
-  ]
+    "services":[
+
+    ]
 }
