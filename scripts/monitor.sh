@@ -10,7 +10,7 @@ CONFIG_DIR="$BASE_DIR/config"
 CONFIG_FILE="$CONFIG_DIR/config.conf"
 
 if [ ! -f "$CONFIG_FILE" ]; then
-    log_error "Configuration file not found."
+    log_error "Configuration file not found: $CONFIG_FILE"
     exit 1
 fi
 
