@@ -12,9 +12,6 @@ CONFIG_FILE="$CONFIG_DIR/config.conf"
 log_success "Configuration loaded successfully."
 
 
-
-
-
 print_title "MONITORING CONFIGURATION"
 
 printf "%-22s %s%%\n" "CPU Threshold :" "$CPU_THRESHOLD"
