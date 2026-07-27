@@ -180,7 +180,6 @@ fi
 
 touch "$STATE_FILE"
 
-STATE_FILE="$BASE_DIR/logs/server_state.txt"
 
 if [ ! -f "$STATE_FILE" ]; then
     echo "UNKNOWN" > "$STATE_FILE"
