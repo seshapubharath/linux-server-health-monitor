@@ -1,19 +1,15 @@
 #!/bin/bash
 
-STATE_FILE="$BASE_DIR/logs/server_state.txt"
-BASE_DIR="/home/bchand/linux-server-health-monitor"
+#!/bin/bash
+
+BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 source "$BASE_DIR/scripts/logger.sh"
 source "$BASE_DIR/scripts/utils.sh"
 
-CONFIG_FILE="$BASE_DIR/config.conf"
+CONFIG_DIR="$BASE_DIR/config"
 
-if [ ! -f "$CONFIG_FILE" ]; then
-    log_error "Configuration file not found."
-    exit 1
-fi
-
-source "$CONFIG_FILE"
+CONFIG_FILE="$CONFIG_DIR/config.conf"
 
 log_success "Configuration loaded successfully."
 
@@ -30,10 +26,8 @@ printf "%-22s %s\n" "Services :" "$SERVICES"
 
 
 
-LOGFILE="/home/bchand/linux-server-health-monitor/logs/health_report.log"
-
-ALERTFILE="/home/bchand/linux-server-health-monitor/logs/alerts.log"
-
+LOGFILE="$BASE_DIR/logs/health_report.log"
+ALERTFILE="$BASE_DIR/logs/alerts.log"
 
 
 rotate_log "$LOGFILE"

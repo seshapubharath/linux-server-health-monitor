@@ -32,7 +32,17 @@ def badge(status):
 # ----------------------------------------------------
 config = {}
 
-with open("/home/bchand/linux-server-health-monitor/config.env") as f:
+from pathlib import Path
+
+# Project root directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# config/config.env
+CONFIG_FILE = BASE_DIR / "config" / "config.env"
+
+config = {}
+
+with open(CONFIG_FILE, "r") as f:
     for line in f:
         line = line.strip()
 

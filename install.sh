@@ -172,7 +172,7 @@ FILES=(
 "$SCRIPT_DIR/utils.sh"
 "$SCRIPT_DIR/send_alert.py"
 "$CONFIG_DIR/config.conf"
-"$CONFIG_DIR/config.env"
+
 )
 
 for file in "${FILES[@]}"
@@ -187,6 +187,35 @@ do
 done
 
 success "Project validation successful."
+
+}
+
+create_config_env() {
+
+echo
+echo "Checking config.env..."
+
+CONFIG_ENV="$CONFIG_DIR/config.env"
+
+if [ ! -f "$CONFIG_ENV" ]; then
+
+cat > "$CONFIG_ENV" <<EOF
+SENDER_EMAIL=
+APP_PASSWORD=
+RECEIVER_EMAIL=
+EOF
+
+warning "config.env was not found."
+
+warning "A template has been created."
+
+warning "Please edit config/config.env before running monitor.sh."
+
+else
+
+success "config.env found."
+
+fi
 
 }
 
@@ -316,6 +345,8 @@ check_python
 check_cron
 
 validate_project
+
+create_config_env
 
 create_directories
 
