@@ -118,26 +118,38 @@ printf "%-25s %-20s\n" "SERVICE" "STATUS"
 for service in $SERVICES
 do
 
-          STATUS=$(systemctl is-active "$service")
+    # Skip services that are not installed
+    if ! systemctl list-unit-files --type=service | grep -q "^${service}\.service"; then
 
-	   if [ "$STATUS" = "active" ]; then
-	   
-	    print_row "$service" "" "$(status_badge RUNNING)"
+        print_row "$service" "" "$(status_badge "NOT INSTALLED")"
 
-	   else
-		print_row "$service" "" "$(status_badge STOPPED)"
+        log_info "Service '$service' is not installed. Skipping."
 
-		SERVICE_STATUS="WARNING"
+        continue
 
-		log_warning "Service '$service' is not running."
+    fi
 
+    STATUS=$(systemctl is-active "$service")
+
+    if [ "$STATUS" = "active" ]; then
+
+        print_row "$service" "" "$(status_badge RUNNING)"
+
+    else
+
+        print_row "$service" "" "$(status_badge STOPPED)"
+
+        SERVICE_STATUS="WARNING"
+
+        log_warning "Service '$service' is not running."
 
         if [ -z "$FAILED_SERVICES" ]; then
-		    FAILED_SERVICES="$service"
-		else
-		    FAILED_SERVICES="$FAILED_SERVICES, $service"
-		fi
-	   fi
+            FAILED_SERVICES="$service"
+        else
+            FAILED_SERVICES="$FAILED_SERVICES, $service"
+        fi
+    fi
+
 done
 
 
@@ -227,12 +239,16 @@ FIRST=true
 for service in $SERVICES
 do
 
-    STATUS=$(systemctl is-active "$service")
-
-    if [ "$STATUS" = "active" ]; then
-        SERVICE_STATE="RUNNING"
+    if ! systemctl list-unit-files --type=service | grep -q "^${service}\.service"; then
+        SERVICE_STATE="NOT INSTALLED"
     else
-        SERVICE_STATE="STOPPED"
+        STATUS=$(systemctl is-active "$service")
+
+        if [ "$STATUS" = "active" ]; then
+            SERVICE_STATE="RUNNING"
+        else
+            SERVICE_STATE="STOPPED"
+        fi
     fi
 
     if [ "$FIRST" = true ]; then
