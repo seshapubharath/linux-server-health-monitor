@@ -113,12 +113,14 @@ echo ""
 
 print_title "SERVICES"
 
-printf "%-25s %-20s\n" "SERVICE" "STATUS" 
+printf "%-25s %-20s\n" "SERVICE" "STATUS"
+
+SERVICE_STATUS="HEALTHY"
+FAILED_SERVICES=""
 
 for service in $SERVICES
 do
-
-    # Skip services that are not installed
+    # Skip if service is not installed
     if ! systemctl list-unit-files --type=service | grep -q "^${service}\.service"; then
 
         print_row "$service" "" "$(status_badge "NOT INSTALLED")"
@@ -126,7 +128,6 @@ do
         log_info "Service '$service' is not installed. Skipping."
 
         continue
-
     fi
 
     STATUS=$(systemctl is-active "$service")
@@ -149,9 +150,7 @@ do
             FAILED_SERVICES="$FAILED_SERVICES, $service"
         fi
     fi
-
 done
-
 
 
 echo ""
@@ -238,7 +237,6 @@ FIRST=true
 
 for service in $SERVICES
 do
-
     if ! systemctl list-unit-files --type=service | grep -q "^${service}\.service"; then
         SERVICE_STATE="NOT INSTALLED"
     else
@@ -263,7 +261,6 @@ do
             "status":"$SERVICE_STATE"
         }
 EOF
-
 done
 
 cat >> "$REPORT_JSON" <<EOF
