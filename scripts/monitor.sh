@@ -9,6 +9,13 @@ CONFIG_DIR="$BASE_DIR/config"
 
 CONFIG_FILE="$CONFIG_DIR/config.conf"
 
+if [ ! -f "$CONFIG_FILE" ]; then
+    log_error "Configuration file not found."
+    exit 1
+fi
+
+source "$CONFIG_FILE"
+
 log_success "Configuration loaded successfully."
 
 
@@ -23,6 +30,7 @@ printf "%-22s %s\n" "Services :" "$SERVICES"
 
 LOGFILE="$BASE_DIR/logs/health_report.log"
 ALERTFILE="$BASE_DIR/logs/alerts.log"
+STATE_FILE="$BASE_DIR/logs/server_state.txt"
 
 
 rotate_log "$LOGFILE"
@@ -169,6 +177,8 @@ if [ "$OVERALL_STATUS" = "ATTENTION REQUIRED" ]; then
 else
     log_success "Overall Status : HEALTHY"
 fi
+
+touch "$STATE_FILE"
 
 PREVIOUS_STATUS=""
 
