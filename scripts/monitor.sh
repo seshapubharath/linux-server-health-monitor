@@ -176,7 +176,11 @@ if [ -f "$STATE_FILE" ]; then
     PREVIOUS_STATUS=$(cat "$STATE_FILE")
 fi
 
-REPORT_JSON="/tmp/server_report.json"
+REPORT_DIR="$BASE_DIR/reports"
+
+mkdir -p "$REPORT_DIR"
+
+REPORT_JSON="$REPORT_DIR/server_report.json"
 
 cat > "$REPORT_JSON" <<EOF
 {
