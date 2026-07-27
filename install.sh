@@ -274,27 +274,28 @@ success "Executable permissions applied."
 
 install_cron() {
 
-echo
-echo "Installing cron job..."
+    echo
+    echo "Installing cron job..."
 
-if crontab -l 2>/dev/null | grep -q "$SCRIPT_DIR/monitor.sh"
-then
+    local current_cron
+    current_cron=$(crontab -l 2>/dev/null || true)
 
-    warning "Cron job already exists."
+    if echo "$current_cron" | grep -Fq "$SCRIPT_DIR/monitor.sh"; then
+        warning "Cron job already exists."
+        return
+    fi
 
-else
+    printf "%s\n%s\n" \
+        "$current_cron" \
+        "$CRON_JOB" | crontab -
 
-    (
-    crontab -l 2>/dev/null
-    echo "$CRON_JOB"
-    ) | crontab -
-
-    success "Cron installed (Every 5 minutes)."
-
-fi
-
+    # Verify installation
+    if crontab -l | grep -Fq "$SCRIPT_DIR/monitor.sh"; then
+        success "Cron job installed successfully."
+    else
+        error_exit "Failed to install cron job."
+    fi
 }
-
 ##############################################
 # Installation Summary
 ##############################################
