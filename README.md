@@ -322,6 +322,11 @@ The monitoring solution generates:
 
 ![Email Content](screenshots/email_ok2.png)
 
+### AWS EC2 Deployment
+
+![AWS EC2](screenshots/AWS_DEPLOYEMENT.png)
+
+
 
 
 
