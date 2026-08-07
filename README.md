@@ -2,26 +2,20 @@
 
 ## Overview
 
-Linux Server Health Monitor is a modular server monitoring solution built using Bash and Python that automates Linux health checks, service monitoring, incident detection, and intelligent email alerting.
+A production-style Linux Server Health Monitoring solution built using Bash and Python that automates server health checks, service monitoring, alerting, reporting, and incident notifications.
 
-The project follows a production-inspired architecture by separating data collection from presentation. Bash collects system metrics and generates structured JSON reports, while Python converts the collected data into professional HTML email dashboards delivered through Gmail SMTP.
-
-The monitoring system implements **state-aware alerting**, ensuring notifications are sent only when the server health changes, preventing alert fatigue and duplicate notifications during scheduled monitoring.
-
-The project demonstrates Linux system administration, automation, monitoring, alerting, logging, incident detection, JSON data processing, and operational reporting practices commonly used in DevOps and Site Reliability Engineering (SRE).
+The project follows Linux Administration and DevOps best practices by implementing modular scripting, configurable monitoring thresholds, log rotation, JSON report generation, state-based email notifications, automated installation, and cross-platform compatibility across Rocky Linux and Amazon Linux.
 
 ## Project Highlights
 
 - Automated Linux Server Health Monitoring
-- Modular Bash Architecture
-- JSON-Based Monitoring Reports
-- Professional HTML Email Dashboard
-- Intelligent State-Based Alerting
-- Service Availability Monitoring
-- Incident Detection & Recovery Notifications
-- Cron-Based Scheduled Execution
+- Modular Bash Script Architecture
+- Cron-Based Scheduled Monitoring
+- Cross-Distribution Linux Support
+- State-Based Email Notifications
+- JSON Health Report Generation
 - Log Rotation & Retention
-- Gmail SMTP Email Notifications
+- Automated Installation Script
 - Secure Credential Management
 - Git Version Controlled Development
 
@@ -51,6 +45,8 @@ The project demonstrates Linux system administration, automation, monitoring, al
 
 - Automated health report generation
 - JSON report generation
+- Structured monitoring reports
+- Runtime state tracking
 - Historical report storage
 - HTML dashboard generation
 - Alert logging
@@ -59,14 +55,20 @@ The project demonstrates Linux system administration, automation, monitoring, al
 
 ### Automation & Alerting
 
-- Cron-based scheduled execution
-- Automated incident detection
-- Intelligent state-based alerting
-- Recovery notification emails
-- HTML email dashboard generation
-- Gmail SMTP email notifications
-- Secure credential management using config.env
-- Duplicate alert prevention
+- Cron-based scheduled monitoring
+- State-based email notifications
+- Automatic recovery notifications
+- Gmail SMTP email alerts
+- Alert suppression (prevents duplicate emails)
+- Secure credential management
+
+### Cross-Platform Compatibility
+
+- Rocky Linux 9
+- Amazon Linux 2023
+- Portable project structure
+- Dynamic path resolution using BASE_DIR
+- Automatic detection of unavailable services
 
 ### Intelligent Alert Management
 
@@ -108,62 +110,61 @@ State transitions include:
 
 ```text
 linux-server-health-monitor/
-
-├── config.conf
-├── config.env
-├── README.md
-├── .gitignore
-
+├── config/
+│   ├── config.conf
+│   └── config.env
 ├── logs/
 │   ├── health_report.log
 │   ├── alerts.log
 │   └── server_state.txt
-
 ├── reports/
 │   └── server_report.json
-
 ├── screenshots/
-
-└── scripts/
-    ├── monitor.sh
-    ├── logger.sh
-    ├── utils.sh
-    └── send_alert.py
+├── scripts/
+│   ├── monitor.sh
+│   ├── logger.sh
+│   ├── utils.sh
+│   └── send_alert.py
+├── install.sh
+├── .gitignore
+└── README.md
 ```
-
 ---
 
 ## Monitoring Workflow
 
 ```text
-                               monitor.sh
-                      │
-                      ▼
-          Collect System Metrics
-                      │
-                      ▼
-          Evaluate Resource Health
-                      │
-                      ▼
-          Generate server_report.json
-                      │
-                      ▼
-          Compare Previous State
-                      │
-         ┌────────────┴────────────┐
-         │                         │
-    No Change               Status Changed
-         │                         │
-         ▼                         ▼
- Skip Notification        Generate HTML Dashboard
-                                   │
-                                   ▼
-                          Send Email Notification
-                                   │
-                                   ▼
-                      Update server_state.txt
+                monitor.sh
+                     │
+                     ▼
+          Load Configuration
+                     │
+                     ▼
+       Collect System Information
+                     │
+                     ▼
+       Monitor CPU / Memory / Disk
+                     │
+                     ▼
+         Check Configured Services
+                     │
+                     ▼
+       Generate JSON Health Report
+                     │
+                     ▼
+      Compare Previous Server State
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+     No State Change      State Changed
+          │                     │
+          ▼                     ▼
+     Skip Email          Send Email Alert
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+          Update Health Logs
 ```
-
 ## Intelligent Alert Flow
 
 ```text
@@ -328,7 +329,7 @@ The monitoring solution generates:
 
 ## Current Version
 
-**Latest Release:** V10.0
+**Latest Release:** V10.5.1
 
 ### Completed Milestones
 
@@ -348,8 +349,9 @@ The monitoring solution generates:
 | V10.1 | Modular Bash Architecture |
 | V10.2 | JSON Report Generation |
 | V10.3 | HTML Dashboard Email |
-| **V10.4** | **State-Based Intelligent Alerting** |
-
+| V10.4 | State-Based Intelligent Alerting |
+| V10.5 | AWS EC2 Deployment |
+| V10.5.1 | Cross-Platform Service Detection & Deployment Stabilization |
 ---
 
 ## Release History
@@ -435,42 +437,46 @@ The monitoring solution generates:
 - Reduced notification noise during cron-based monitoring
 - Improved monitoring workflow to match enterprise monitoring practices
 
+### Version 10.5.1
+
+- Fixed repeated email notifications
+- Added state-based alert mechanism
+- Added server_state tracking
+- Improved AWS deployment
+- Replaced hardcoded paths with dynamic BASE_DIR
+- Improved cross-platform compatibility
+- Added automatic detection of unavailable services
+- Improved installer reliability
+- Refactored project for production deployment
 ---
 
 ## Skills Demonstrated
 
-- Linux Administration
-- Bash Scripting
+- Linux System Administration
+- Shell Scripting
 - Python Automation
-- JSON Data Processing
-- HTML Email Generation
-- Linux Service Management
-- State-Based Alerting
-- Incident Detection
-- Recovery Notification
-- System Monitoring
-- Cron Automation
+- Infrastructure Monitoring
+- JSON Data Generation
+- State Management
+- Linux Services Management
+- AWS EC2 Deployment
+- Cross-Platform Scripting
+- Git Workflow
 - SMTP Email Integration
-- Log Rotation
-- Production Logging
-- Shell Script Modularization
-- Git Version Control
 ---
 
 ## Future Enhancements
 
-- Docker Container Support
+- Docker Containerization
+- Docker Compose
+- GitHub Actions CI/CD
 - Multi-Server Monitoring
-- AWS EC2 Deployment
-- Configuration Dashboard
 - Slack / Microsoft Teams Notifications
-- REST API Integration
 - Web Dashboard
-- Grafana Visualization
+- REST API Integration
 - Prometheus Exporter
-- Kubernetes Deployment
-- Alert Escalation Policies
-- Persistent Database for Alert History
+- Grafana Dashboard
+- AWS CloudWatch Integration
 
 ---
 
