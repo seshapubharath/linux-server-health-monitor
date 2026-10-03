@@ -1,35 +1,14 @@
 # Linux Server Health Monitor
 
-## Overview
+A production-style Linux server monitoring solution built with **Bash, Python, Docker, Docker Compose, and AWS EC2**.
 
-A production-style Linux Server Health Monitoring solution built using Bash and Python that automates server health checks, service monitoring, alerting, reporting, incident notifications, and containerized deployment.
+The system continuously monitors Linux server health, services, resources, logs, and operational state. It generates structured reports, sends HTML email alerts when health status changes, and runs automatically every five minutes through Docker Compose and Cron.
 
-The project follows Linux Administration and DevOps practices by implementing modular scripting, configurable monitoring thresholds, log rotation, JSON report generation, state-based email notifications, automated installation, cross-platform compatibility, Docker containerization, Docker Compose deployment, and AWS EC2 deployment.
-
-The containerized deployment is designed to monitor the **underlying Linux host**, rather than only the Docker container.
+The containerized deployment is designed to monitor the **underlying Linux host**, not just the container itself.
 
 ---
 
-## Project Highlights
-
-- Automated Linux Server Health Monitoring
-- Modular Bash Script Architecture
-- Docker Containerized Monitoring
-- Docker Compose Deployment
-- Host-Level Monitoring from Container
-- Cron-Based Scheduled Monitoring
-- Cross-Distribution Linux Support
-- State-Based Email Notifications
-- JSON Health Report Generation
-- Log Rotation & Retention
-- Automated Installation Script
-- Secure Credential Management
-- AWS EC2 Deployment
-- Git Version Controlled Development
-
----
-
-## Key Features
+## Features
 
 ### System Monitoring
 
@@ -37,234 +16,67 @@ The containerized deployment is designed to monitor the **underlying Linux host*
 - Memory utilization monitoring
 - Disk utilization monitoring
 - System uptime tracking
-- Hostname information collection
-- Logged-in user monitoring
-- Top memory-consuming process tracking
+- Hostname detection
 - Operating system detection
-- Kernel information collection
+- Kernel information
 - IP address detection
+- Logged-in user monitoring
+- Top memory-consuming processes
 
 ### Service Monitoring
 
 - SSH service monitoring
 - Cron service monitoring
-- NetworkManager monitoring
+- NetworkManager detection
 - Service failure detection
-- Critical service health checks
+- Service recovery detection
 - Automatic detection of unavailable services
 - Cross-distribution service compatibility
 
-### Logging & Reporting
+### Reporting & Logging
 
-- Automated health report generation
-- JSON report generation
-- Structured monitoring reports
-- Runtime state tracking
-- Historical monitoring logs
-- HTML email dashboard generation
+- Terminal health dashboard
+- Structured health logs
+- JSON health reports
+- HTML email reports
 - Alert logging
-- Incident tracking
-- Log rotation and retention
-- Resource health status classification
-- Overall server health classification
+- Runtime state tracking
+- Historical log retention
+- Automated log rotation
 
-### Automation & Alerting
+### Intelligent Alerting
 
-- Cron-based scheduled monitoring
 - State-based email notifications
-- Automatic recovery notifications
-- Gmail SMTP email alerts
-- Alert suppression to prevent duplicate emails
-- Secure credential management
+- Duplicate alert suppression
+- Recovery notifications
+- Gmail SMTP integration
+- Configurable monitoring thresholds
 - Email failure handling
-
-### Cross-Platform Compatibility
-
-- Rocky Linux 9
-- Amazon Linux 2023
-- Portable project structure
-- Dynamic path resolution using `BASE_DIR`
-- Automatic detection of unavailable services
-- Distribution-aware operating system detection
 
 ### Containerized Deployment
 
-The monitoring solution supports Docker-based deployment while continuing to monitor the underlying Linux host.
-
-Docker Compose is configured with:
-
+- Docker-based deployment
+- Docker Compose orchestration
 - Host PID namespace access
 - Host network namespace
-- Read-only access to the host filesystem
-- Read-only access to the host `/run` directory
-- Persistent mounts for logs and reports
-- Read-only access to email configuration
+- Host filesystem monitoring
+- Host systemd service monitoring
+- Persistent log and report storage
+- Automated container cleanup
 
-This allows the containerized monitor to collect host-level CPU, memory, disk, process, network, operating system, and systemd service information.
+### Automation
 
-The monitor is executed as a temporary container using:
+- Five-minute monitoring schedule
+- Docker Compose Cron integration
+- Automated installation
+- Docker and Docker Compose validation
+- Dynamic project path resolution
+- AWS EC2 deployment
 
-```bash
-docker compose run --rm monitor
+---
 
-The container is automatically removed after each monitoring execution.
-Intelligent Alert Management
-The monitoring system maintains the previous server health state and sends notifications only when the server status changes.
-This prevents duplicate alerts during scheduled monitoring while ensuring administrators receive notifications whenever the server enters or recovers from an unhealthy state.
+## Architecture
 
-###State Transitions
-```text
-HEALTHY
-    │
-    ▼
-ATTENTION REQUIRED
-    │
-    ├── Same state → No email
-    │
-    ▼
-HEALTHY
-    │
-    ▼
-Recovery email
-
-Typical transitions include:
-HEALTHY → ATTENTION REQUIRED
-ATTENTION REQUIRED → HEALTHY
-
-Resource-level conditions such as high CPU, high memory, high disk usage, or stopped services can cause the overall server status to become ATTENTION REQUIRED.
-Alert Suppression
-If the server remains in the same state:
-ATTENTION REQUIRED → ATTENTION REQUIRED
-
-the monitor skips the email notification.
-This prevents receiving an alert every five minutes while the same issue remains unresolved.
-
-###Log Rotation
-- Automated log rotation
-- Log retention management
-- Prevents excessive log growth
-- Maintains historical log archives
-- Separate health and alert logs
-
-###Technologies Used
-- Linux (Rocky Linux / Amazon Linux)
-- Bash Scripting
-- Python 3
-- Docker
-- Docker Compose
-- JSON
-- HTML & CSS
-- Gmail SMTP
-- Cron
-- AWS EC2
-- Git
-- GitHub
-
-###Project Structure
-```text
-linux-server-health-monitor/
-├── config/
-│   ├── config.conf
-│   └── config.env
-├── logs/
-│   ├── health_report.log
-│   ├── alerts.log
-│   └── server_state.txt
-├── reports/
-│   └── server_report.json
-├── screenshots/
-├── scripts/
-│   ├── monitor.sh
-│   ├── logger.sh
-│   ├── utils.sh
-│   └── send_alert.py
-├── Dockerfile
-├── compose.yaml
-├── install.sh
-├── .gitignore
-└── README.md
-
-config/config.env, runtime logs, runtime state, and generated reports are excluded from version control where applicable.
-
-###Monitoring Workflow
-```text
-Cron Scheduler
-      │
-      ▼
-Docker Compose
-      │
-      ▼
-Start Monitor Container
-      │
-      ▼
-Load Configuration
-      │
-      ▼
-Collect Host System Information
-      │
-      ▼
-Monitor CPU / Memory / Disk
-      │
-      ▼
-Check Configured Services
-      │
-      ▼
-Generate JSON Health Report
-      │
-      ▼
-Compare Previous Server State
-      │
-      ├── No State Change
-      │       │
-      │       ▼
-      │   Skip Email
-      │
-      └── State Changed
-              │
-              ▼
-        Send Email Alert
-              │
-              ▼
-        Update Health Logs
-              │
-              ▼
-        Remove Temporary Container
-
-###Intelligent Alert Flow
-```text
-
-Cron Scheduler
-Every 5 Minutes
-       │
-       ▼
-Docker Compose
-       │
-       ▼
-Collect Server Metrics
-       │
-       ▼
-Determine Overall Health
-       │
-       ▼
-Read Previous Status
-       │
-       ▼
-Status Changed?
-       │
-   ┌───┴───────────┐
-   │               │
-  No              Yes
-   │               │
-   ▼               ▼
-Skip Email     Generate Alert
-                   │
-                   ▼
-             Send HTML Email
-                   │
-                   ▼
-          Update Previous State
-
-###Architecture
 ```text
                          AWS EC2
                     Amazon Linux 2023
@@ -284,14 +96,14 @@ Skip Email     Generate Alert
               │          │             │
               │     ┌────┴────┐        │
               │     │         │        │
-              │   Bash      Python    │
-              │ Monitoring  Alerts    │
+              │   Bash      Python     │
+              │ Monitoring  Alerts     │
               └──────┬─────────┬───────┘
                      │         │
                      │         ▼
                      │     Gmail SMTP
                      │
-             Host-Level Access
+              Host-Level Access
                      │
         ┌────────────┼───────────────┐
         │            │               │
@@ -303,7 +115,7 @@ Skip Email     Generate Alert
                            NetworkManager
         │
         ▼
- Persistent Host Data
+   Persistent Data
         │
    ┌────┴─────┐
    ▼          ▼
@@ -311,45 +123,249 @@ Skip Email     Generate Alert
    │          │
    ▼          ▼
 Health Logs  JSON Report
+```
 
-###Container Host Access
-The Docker deployment uses:
-- pid: host for host process visibility
-- network_mode: host for host networking
-- /run:/run:ro for systemd service inspection
-- /:/host:ro for host filesystem information
-- ./logs:/app/logs for persistent monitoring logs
-- ./reports:/app/reports for generated reports
-- ./config/config.env:/app/config/config.env:ro for email configuration
+### Host Monitoring from Docker
 
-###Docker Deployment
-Prerequisites
-- Linux host
+The container is configured to access the host through:
+
+| Configuration | Purpose |
+|---|---|
+| `pid: host` | Monitor host processes |
+| `network_mode: host` | Access host networking |
+| `/run:/run:ro` | Inspect host systemd |
+| `/:/host:ro` | Access host filesystem information |
+| `./logs:/app/logs` | Persist monitoring logs |
+| `./reports:/app/reports` | Persist generated reports |
+| `./config/config.env:/app/config/config.env:ro` | Provide email configuration |
+
+This allows the containerized monitor to inspect the EC2 host rather than reporting only container-level information.
+
+---
+
+## Monitoring Workflow
+
+```text
+Cron Scheduler
+      │
+      ▼
+Docker Compose
+      │
+      ▼
+Start Monitor Container
+      │
+      ▼
+Load Configuration
+      │
+      ▼
+Collect Host Information
+      │
+      ▼
+Monitor CPU / Memory / Disk
+      │
+      ▼
+Check Configured Services
+      │
+      ▼
+Generate JSON Report
+      │
+      ▼
+Compare Previous State
+      │
+      ├───────────────┐
+      │               │
+      ▼               ▼
+No State Change   State Changed
+      │               │
+      ▼               ▼
+ Skip Email       Send Email
+      │               │
+      └───────┬───────┘
+              ▼
+        Update Logs
+              │
+              ▼
+      Remove Container
+```
+
+---
+
+## Intelligent Alerting
+
+The monitor stores the previous overall health state in:
+
+```text
+logs/server_state.txt
+```
+
+An email is sent only when the overall state changes.
+
+### Alert State Flow
+
+```text
+HEALTHY
+    │
+    │ threshold exceeded
+    ▼
+ATTENTION REQUIRED
+    │
+    │ same state
+    ▼
+No additional email
+```
+
+When the issue is resolved:
+
+```text
+ATTENTION REQUIRED
+    │
+    │ health restored
+    ▼
+HEALTHY
+    │
+    ▼
+Recovery email
+```
+
+### Example
+
+| Previous State | Current State | Email |
+|---|---|---|
+| HEALTHY | HEALTHY | No |
+| HEALTHY | ATTENTION REQUIRED | Yes |
+| ATTENTION REQUIRED | ATTENTION REQUIRED | No |
+| ATTENTION REQUIRED | HEALTHY | Yes |
+
+This prevents the system from sending the same alert every five minutes while an issue remains unresolved.
+
+---
+
+## Project Structure
+
+```text
+linux-server-health-monitor/
+│
+├── config/
+│   ├── config.conf
+│   └── config.env
+│
+├── logs/
+│   ├── health_report.log
+│   ├── alerts.log
+│   └── server_state.txt
+│
+├── reports/
+│   └── server_report.json
+│
+├── screenshots/
+│
+├── scripts/
+│   ├── monitor.sh
+│   ├── logger.sh
+│   ├── utils.sh
+│   └── send_alert.py
+│
+├── Dockerfile
+├── compose.yaml
+├── install.sh
+├── .gitignore
+└── README.md
+```
+
+### Important Files
+
+| File | Purpose |
+|---|---|
+| `monitor.sh` | Main monitoring engine |
+| `utils.sh` | System information and metric collection |
+| `logger.sh` | Logging and terminal formatting |
+| `send_alert.py` | HTML email generation and SMTP delivery |
+| `config.conf` | Monitoring thresholds and services |
+| `config.env` | Email credentials |
+| `Dockerfile` | Container image definition |
+| `compose.yaml` | Docker Compose configuration |
+| `install.sh` | Automated installation and Cron configuration |
+
+> `config/config.env`, runtime logs, runtime state, and generated reports are excluded from version control where applicable.
+
+---
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Linux | Operating system monitoring |
+| Bash | Monitoring and automation |
+| Python 3 | Email alert processing |
+| Docker | Containerization |
+| Docker Compose | Container orchestration |
+| AWS EC2 | Cloud deployment |
+| Cron | Scheduled execution |
+| JSON | Health report generation |
+| HTML/CSS | Email dashboard |
+| Gmail SMTP | Email notifications |
+| Git | Version control |
+| GitHub | Source code hosting |
+
+---
+
+## Supported Platforms
+
+The monitoring logic has been tested with:
+
+- Rocky Linux 9
+- Amazon Linux 2023
+
+The project uses dynamic path resolution and automatically handles services that are unavailable on a particular distribution.
+
+For example, if `NetworkManager` is not installed, the monitor reports:
+
+```text
+NetworkManager    NOT INSTALLED
+```
+
+instead of treating the missing service as a monitoring failure.
+
+---
+
+## Prerequisites
+
+Before installation, ensure the system has:
+
+- Linux
 - Bash
 - Python 3
 - Docker
 - Docker Compose
 - Cron
 
-##Build the Docker Image
-docker compose build
+The installer automatically validates these dependencies.
 
-##Verify the Compose Configuration
-docker compose config
+---
 
-##Run the Monitor Manually
-docker compose run --rm monitor
+## Installation
 
-###Automated Monitoring
-The installer configures Cron to execute the Dockerized monitor every five minutes.
-The resulting Cron job follows this format:
-*/5 * * * * cd /path/to/linux-server-health-monitor && /usr/bin/docker compose run --rm monitor >/dev/null 2>&1
+Clone the repository:
 
-The actual installation directory is resolved dynamically by install.sh.
-Install the Monitoring System
+```bash
+git clone https://github.com/seshapubharath/linux-server-health-monitor.git
+cd linux-server-health-monitor
+```
+
+Make the installer executable:
+
+```bash
+chmod +x install.sh
+```
+
+Run the installer:
+
+```bash
 ./install.sh
+```
 
-###The installer validates:
+The installer validates:
+
 - Linux
 - Bash
 - Python
@@ -357,49 +373,263 @@ Install the Monitoring System
 - Docker Compose
 - Cron
 - Required project files
+
 It also:
+
 - Creates required directories
 - Creates required log files
-- Creates the email configuration template when required
+- Creates the email configuration template if required
 - Applies executable permissions
 - Configures the Docker Compose Cron job
 - Verifies the installation
 
-###Configuration
-Monitoring Configuration
-Monitoring thresholds and monitored services are defined in:
-config/config.conf
+---
 
-##Example configuration values include:
+## Configuration
+
+### Monitoring Configuration
+
+Edit:
+
+```text
+config/config.conf
+```
+
+The configuration contains monitoring thresholds and the services to monitor.
+
+Typical configuration values include:
+
+```text
 CPU_THRESHOLD
 MEMORY_THRESHOLD
 DISK_THRESHOLD
 SERVICES
+```
 
-##Email Configuration
-Email credentials are stored in:
+### Email Configuration
+
+Create or edit:
+
+```text
 config/config.env
+```
 
 Example:
+
+```env
 SENDER_EMAIL=
 APP_PASSWORD=
 RECEIVER_EMAIL=
+```
 
-The file contains sensitive credentials and should not be committed to Git.
-The Docker Compose configuration mounts this file into the container as read-only configuration.
+The file contains sensitive email credentials and must not be committed to Git.
 
-###Sample Output
-The monitoring solution generates:
-- Interactive terminal health dashboard
-- JSON monitoring report
-- Professional HTML email dashboard
-- Historical monitoring logs
-- Alert logs
-- Intelligent state-based email notifications
-- Recovery acknowledgement emails
-- Service status summary
-- Overall health assessment
+The Docker Compose configuration mounts it into the container as read-only configuration.
 
+---
+
+## Docker Usage
+
+### Build the Image
+
+```bash
+docker compose build
+```
+
+### Validate Compose Configuration
+
+```bash
+docker compose config
+```
+
+### Run the Monitor Manually
+
+```bash
+docker compose run --rm monitor
+```
+
+The monitor will:
+
+1. Start a temporary container.
+2. Access the host monitoring namespaces.
+3. Collect CPU, memory, disk, process, network, OS, and service information.
+4. Generate the health report.
+5. Compare the previous health state.
+6. Send an email if the state changed.
+7. Write logs and reports to the host-mounted directories.
+8. Remove the temporary container.
+
+---
+
+## Automated Monitoring
+
+The installer configures Cron to run the Dockerized monitor every five minutes.
+
+The resulting Cron job follows this structure:
+
+```cron
+*/5 * * * * cd /path/to/linux-server-health-monitor && /usr/bin/docker compose run --rm monitor >/dev/null 2>&1
+```
+
+The actual project path is determined dynamically by `install.sh`.
+
+To view the configured Cron job:
+
+```bash
+crontab -l
+```
+
+---
+
+## Logs & Reports
+
+### Health Log
+
+```text
+logs/health_report.log
+```
+
+Contains detailed monitoring output.
+
+### Alert Log
+
+```text
+logs/alerts.log
+```
+
+Contains alert-related events.
+
+### Server State
+
+```text
+logs/server_state.txt
+```
+
+Stores the previous overall health state.
+
+### JSON Report
+
+```text
+reports/server_report.json
+```
+
+Contains structured server health information.
+
+Example:
+
+```json
+{
+  "hostname": "server-hostname",
+  "os": "Amazon Linux 2023",
+  "kernel": "6.x.x",
+  "ip": "172.x.x.x",
+  "overall_status": "HEALTHY",
+  "resources": {
+    "cpu": {
+      "usage": 2,
+      "status": "HEALTHY"
+    },
+    "memory": {
+      "usage": 60,
+      "status": "HEALTHY"
+    },
+    "disk": {
+      "usage": 52,
+      "status": "HEALTHY"
+    }
+  }
+}
+```
+
+---
+
+## Log Rotation
+
+The monitor automatically rotates logs to prevent unlimited log growth.
+
+The system maintains the active monitoring log along with historical rotated logs.
+
+This helps prevent monitoring logs from continuously consuming disk space.
+
+---
+
+## Sample Output
+
+```text
+======================================================================
+                    LINUX SERVER HEALTH MONITOR
+======================================================================
+
+Hostname : ip-172-31-x-x
+OS       : Amazon Linux 2023
+Kernel   : 6.x.x
+IP       : 172.x.x.x
+
+======================================================================
+                           SERVICES
+======================================================================
+
+SERVICE                   STATUS
+sshd                      RUNNING
+crond                     RUNNING
+NetworkManager            NOT INSTALLED
+
+======================================================================
+                   RESOURCE SUMMARY
+======================================================================
+
+RESOURCE             USAGE           STATUS
+CPU                  2%              HEALTHY
+Memory               60%             HEALTHY
+Disk                 52%             HEALTHY
+
+======================================================================
+
+Overall Status : HEALTHY
+
+No status change. Email notification skipped.
+```
+
+---
+
+## Email Alerts
+
+When the overall server status changes, the monitor generates an HTML email containing:
+
+- Server information
+- Overall health status
+- CPU status
+- Memory status
+- Disk status
+- Service status
+- Relevant recommendations
+- Timestamp
+
+Example transition:
+
+```text
+HEALTHY
+   ↓
+Memory threshold exceeded
+   ↓
+ATTENTION REQUIRED
+   ↓
+HTML alert email
+```
+
+When the condition is resolved:
+
+```text
+ATTENTION REQUIRED
+   ↓
+Memory returns below threshold
+   ↓
+HEALTHY
+   ↓
+Recovery email
+```
+
+---
 
 ## Screenshots
 
@@ -423,7 +653,7 @@ The monitoring solution generates:
 
 ![Services Running](screenshots/services_Running.png)
 
-### Attention Required (Service Warning)
+### Service Warning
 
 ![Service Warning](screenshots/services_warning.png)
 
@@ -439,13 +669,15 @@ The monitoring solution generates:
 
 ![Email Alert](screenshots/Email_Received.png)
 
-### Email Alert(Critical) Content
+### Email Alert Content
 
 ![Email Content](screenshots/Email_contents.png)
 
-![Email Content](screenshots/Email2.png) 
+### Email Alert Example
 
-### Email Alert(OK) Content
+![Email Content](screenshots/Email2.png)
+
+### Recovery Email
 
 ![Email Content](screenshots/Email_Ok.png)
 
@@ -455,148 +687,100 @@ The monitoring solution generates:
 
 ![AWS EC2](screenshots/AWS_DEPLOYEMENT.png)
 
+---
 
+## Version History
 
-
+| Version | Feature |
+|---|---|
+| V1 | Basic Server Monitoring |
+| V2 | Report Logging |
+| V3 | Memory & Disk Monitoring |
+| V4 | CPU Monitoring |
+| V5 | Overall Health Summary |
+| V6 | Cron Automation |
+| V7 | Service Monitoring |
+| V8 | Incident Logging |
+| V9 | Gmail SMTP Alerts |
+| V9.1 | Enhanced Email Content |
+| V10 | Log Rotation |
+| V10.1 | Modular Bash Architecture |
+| V10.2 | JSON Report Generation |
+| V10.3 | HTML Dashboard Email |
+| V10.4 | State-Based Intelligent Alerting |
+| V10.5 | AWS EC2 Deployment |
+| V10.5.1 | Cross-Platform Service Detection & Deployment Stabilization |
+| V10.6.0 | Docker Containerization, Docker Compose & Host-Level Monitoring |
 
 ---
 
-###Current Version
-Latest Release: v10.6.0
+## Release History
 
-##Completed Milestones
-Version	Feature
-V1	Basic Server Monitoring
-V2	Report Logging
-V3	Memory & Disk Monitoring
-V4	CPU Monitoring
-V5	Overall Health Summary
-V6	Cron Automation
-V7	Service Monitoring
-V8	Incident Logging
-V9	Gmail SMTP Alerts
-V9.1	Enhanced Email Content
-V10	Log Rotation
-V10.1	Modular Bash Architecture
-V10.2	JSON Report Generation
-V10.3	HTML Dashboard Email
-V10.4	State-Based Intelligent Alerting
-V10.5	AWS EC2 Deployment
-V10.5.1	Cross-Platform Service Detection & Deployment Stabilization
-V10.6.0	Docker Containerization, Docker Compose & Host-Level Monitoring
+### V10.5.1
 
-
-###Release History
-##Version 1.0
-- Basic server monitoring
-- Hostname information
-- System uptime monitoring
-- User session monitoring
-- Process monitoring
-##Version 2.0
-- Report logging functionality
-- Health report persistence
-##Version 3.0
-- Memory utilization monitoring
-- Disk utilization monitoring
-- Threshold-based health checks
-##Version 4.0
-- CPU utilization monitoring
-- CPU health status reporting
-##Version 5.0
-- Overall server health summary
-- Consolidated CPU, Memory, and Disk status reporting
-- ATTENTION REQUIRED / HEALTHY status classification
-##Version 6.0
-- Cron-based automation
-- Automated report generation
-- Scheduled execution every 5 minutes
-##Version 7.0
-- Critical service monitoring
-- SSHD monitoring
-- Cron monitoring
-- NetworkManager monitoring
-- Service health integration
-##Version 8.0
-- Alert engine implementation
-- Incident logging
-- Failed service tracking
-- alerts.log generation
-##Version 9.0
-- Gmail SMTP integration
-- Automated email notifications
-- Secure credential management using config.env
-##Version 9.1
-- Enhanced email alert content
-- Detailed health summary emails
-- Failed service information included in alerts
-- Professional email formatting
-##V10 - Log Rotation & Retention
-- Added automated log rotation
-- Prevents excessive log growth
-- Maintains historical log archives
-- Added rotation activity logging
-##Version 10.4
-- Implemented intelligent state-aware alerting
-- Added server_state.txt for previous status tracking
-- Prevented duplicate email notifications
-- Added automatic recovery notifications
-- Alert emails triggered only on health state transitions
-- Reduced notification noise during Cron-based monitoring
-- Improved monitoring workflow for production-style monitoring
-##Version 10.5.1
 - Improved AWS deployment
-- Replaced hardcoded paths with dynamic BASE_DIR
+- Replaced hardcoded paths with dynamic `BASE_DIR`
 - Improved cross-platform compatibility
 - Added automatic detection of unavailable services
 - Improved installer reliability
 - Refactored project for production deployment
-##Version 10.6.0
+
+### V10.6.0
+
 - Added Docker containerization
 - Added Docker Compose deployment
 - Added host-level monitoring from within the container
 - Added host PID namespace access
 - Added host network access
 - Added host filesystem monitoring
-- Added host /run access for systemd service monitoring
+- Added host `/run` access for systemd service monitoring
 - Updated Cron automation to use Docker Compose
-- Updated installer with Docker validation
-- Updated installer with Docker Compose validation
-- Added Dockerfile and Compose configuration
-- Preserved persistent logs and reports using volume mounts
+- Added Docker validation to installer
+- Added Docker Compose validation to installer
+- Added `Dockerfile`
+- Added `compose.yaml`
+- Preserved persistent logs and reports through volume mounts
 - Improved deployment portability
 - Added containerized EC2 monitoring workflow
 
-###Skills Demonstrated
+---
+
+## Skills Demonstrated
+
 - Linux System Administration
-- Shell Scripting
-- Bash Automation
+- Bash Scripting
 - Python Automation
 - Infrastructure Monitoring
 - Docker
 - Docker Compose
 - Containerized Linux Monitoring
-- JSON Data Generation
-- State Management
-- Linux Services Management
-- AWS EC2 Deployment
-- Cross-Platform Scripting
+- AWS EC2
 - Cron Automation
+- Systemd Service Monitoring
+- JSON Reporting
+- State Management
 - SMTP Email Integration
-- Git Workflow
+- Cross-Platform Scripting
+- Git & GitHub
 - Production Deployment Automation
 
-###Future Enhancements
-- GitHub Actions CI/CD
-- Multi-Server Monitoring
-- Slack / Microsoft Teams Notifications
-- Web Dashboard
-- REST API Integration
-- Prometheus Exporter
-- Grafana Dashboard
-- AWS CloudWatch Integration
+---
 
-###Project Metrics
+## Future Enhancements
+
+- GitHub Actions CI/CD
+- Multi-server monitoring
+- Slack / Microsoft Teams notifications
+- Web dashboard
+- REST API integration
+- Prometheus exporter
+- Grafana dashboard
+- AWS CloudWatch integration
+
+---
+
+## Project Metrics
+
 - 4 Modular Scripts
 - 10+ Monitoring Features
 - 3 Configured Service Checks
@@ -611,7 +795,16 @@ V10.6.0	Docker Containerization, Docker Compose & Host-Level Monitoring
 - AWS EC2 Deployment
 - Modular Linux Monitoring Architecture
 
-###Author
-Bharath Chand Seshapu
+---
+
+## Author
+
+**Bharath Chand Seshapu**
+
 MCA Graduate | Linux Administrator Aspirant | RHCSA Learner | Cloud & DevOps Enthusiast
-```
+
+---
+
+## Repository
+
+[GitHub Repository](https://github.com/seshapubharath/linux-server-health-monitor)
