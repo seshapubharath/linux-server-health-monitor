@@ -7,6 +7,9 @@ config/config.env
 logs/*.log
 logs/*.log.*
 
+# Runtime state
+logs/server_state.txt
+
 # Vim swap files
 *.swp
 *.swo
