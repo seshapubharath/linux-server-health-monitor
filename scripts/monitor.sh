@@ -273,9 +273,11 @@ if [ "$OVERALL_STATUS" != "$PREVIOUS_STATUS" ]; then
 
     echo "$OVERALL_STATUS" > "$STATE_FILE"
 
-    python3 "$BASE_DIR/scripts/send_alert.py" "$REPORT_JSON"
-
-    log_info "Status changed. Email notification sent."
+    if python3 "$BASE_DIR/scripts/send_alert.py" "$REPORT_JSON"; then
+        log_info "Status changed. Email notification sent."
+    else
+        log_error "Failed to send email notification."
+    fi
 
 else
 

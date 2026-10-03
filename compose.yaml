@@ -1,0 +1,16 @@
+services:
+  monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: linux-server-monitor:1.1
+
+    pid: host
+    network_mode: host
+
+    volumes:
+      - /run:/run:ro
+      - /:/host:ro
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+      - ./config/config.env:/app/config/config.env:ro

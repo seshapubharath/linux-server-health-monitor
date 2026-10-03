@@ -1,11 +1,18 @@
 
 
-logs/*.log
+# Environment configuration / secrets
+config/config.env
 
-config.env
+# Logs
+logs/*.log
+logs/*.log.*
+
 # Vim swap files
 *.swp
 *.swo
+
+# Backup files
+*.backup
 
 # Generated reports
 reports/server_report.json

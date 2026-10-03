@@ -38,7 +38,7 @@ CONFIG_DIR="$INSTALL_DIR/config"
 
 STATE_FILE="$LOG_DIR/server_state.txt"
 
-CRON_JOB="*/5 * * * * bash $SCRIPT_DIR/monitor.sh >/dev/null 2>&1"
+CRON_JOB="*/5 * * * * cd $INSTALL_DIR && /usr/bin/docker compose run --rm monitor >/dev/null 2>&1"
 
 ##############################################
 # Helper Functions
@@ -137,6 +137,52 @@ fi
 }
 
 ##############################################
+# Check Docker
+##############################################
+
+check_docker() {
+
+echo
+echo "Checking Docker..."
+
+if command -v docker >/dev/null 2>&1; then
+
+    VERSION=$(docker --version)
+
+    success "$VERSION"
+
+else
+
+    error_exit "Docker is required for the containerized monitor."
+
+fi
+
+}
+
+##############################################
+# Check Docker Compose
+##############################################
+
+check_docker_compose() {
+
+echo
+echo "Checking Docker Compose..."
+
+if docker compose version >/dev/null 2>&1; then
+
+    VERSION=$(docker compose version)
+
+    success "$VERSION"
+
+else
+
+    error_exit "Docker Compose is required for the containerized monitor."
+
+fi
+
+}
+
+##############################################
 # Check Cron
 ##############################################
 
@@ -172,7 +218,8 @@ FILES=(
 "$SCRIPT_DIR/utils.sh"
 "$SCRIPT_DIR/send_alert.py"
 "$CONFIG_DIR/config.conf"
-
+"$INSTALL_DIR/Dockerfile"
+"$INSTALL_DIR/compose.yaml"
 )
 
 for file in "${FILES[@]}"
@@ -209,7 +256,7 @@ warning "config.env was not found."
 
 warning "A template has been created."
 
-warning "Please edit config/config.env before running monitor.sh."
+warning "Please edit config/config.env before running the monitor."
 
 else
 
@@ -275,13 +322,13 @@ success "Executable permissions applied."
 install_cron() {
 
     echo
-    echo "Installing cron job..."
+    echo "Installing Docker Compose cron job..."
 
     local current_cron
     current_cron=$(crontab -l 2>/dev/null || true)
 
-    if echo "$current_cron" | grep -Fq "$SCRIPT_DIR/monitor.sh"; then
-        warning "Cron job already exists."
+    if echo "$current_cron" | grep -Fq "$CRON_JOB"; then
+        warning "Docker Compose cron job already exists."
         return
     fi
 
@@ -290,10 +337,10 @@ install_cron() {
         "$CRON_JOB" | crontab -
 
     # Verify installation
-    if crontab -l | grep -Fq "$SCRIPT_DIR/monitor.sh"; then
-        success "Cron job installed successfully."
+    if crontab -l | grep -Fq "$CRON_JOB"; then
+        success "Docker Compose cron job installed successfully."
     else
-        error_exit "Failed to install cron job."
+        error_exit "Failed to install Docker Compose cron job."
     fi
 }
 ##############################################
@@ -321,7 +368,7 @@ echo
 
 echo "Run manually using:"
 echo
-echo "bash scripts/monitor.sh"
+echo "docker compose run --rm monitor"
 
 echo
 echo "Cron Status : Installed"
@@ -342,6 +389,10 @@ check_os
 check_bash
 
 check_python
+
+check_docker
+
+check_docker_compose
 
 check_cron
 

@@ -37,7 +37,7 @@ get_cpu_usage() {
     idle=$(vmstat 1 2 | tail -1 | awk '{print $15}')
 
     echo $((100-idle))
-}
+ }
 
 get_memory_usage() {
 
@@ -52,7 +52,11 @@ get_memory_usage() {
 
 get_disk_usage() {
 
-    df / | awk 'NR==2 {gsub("%","",$5); print $5}'
+    if [ -f "/.dockerenv" ] && [ -d "/host" ]; then
+        df /host | awk 'NR==2 {gsub("%","",$5); print $5}'
+    else
+        df / | awk 'NR==2 {gsub("%","",$5); print $5}'
+    fi
 }
 
 get_hostname() {
@@ -76,7 +80,13 @@ top_memory_processes() {
 }
 
 get_os_name() {
-    source /etc/os-release
+
+    if [ -f "/.dockerenv" ] && [ -f "/host/etc/os-release" ]; then
+        source /host/etc/os-release
+    else
+        source /etc/os-release
+    fi
+
     echo "$PRETTY_NAME"
 }
 
