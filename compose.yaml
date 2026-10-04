@@ -1,7 +1,7 @@
 services:
   monitor:
     
-    image: bharathchands/linux-server-health-monitor:1.1
+    image: bharathchands/linux-server-health-monitor:${IMAGE_TAG:-latest}
 
     pid: host
     network_mode: host
