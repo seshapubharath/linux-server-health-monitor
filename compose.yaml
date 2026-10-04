@@ -1,9 +1,7 @@
 services:
   monitor:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: linux-server-monitor:1.1
+    
+    image: bharathchands/linux-server-health-monitor:1.1
 
     pid: host
     network_mode: host
