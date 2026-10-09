@@ -5,8 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
-  docker:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,20 +34,19 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/linux-server-health-monitor:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/linux-server-health-monitor:${{ github.sha }}
 
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /home/ec2-user/linux-server-health-monitor
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-            export IMAGE_TAG=${{ github.sha }}
+    steps:
+      - name: Deploy image to EC2
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd /home/ec2-user/linux-server-health-monitor
 
-            echo "Deploying image:"
-            echo "bharathchands/linux-server-health-monitor:${IMAGE_TAG}"
+          echo "Deploying image tag: ${IMAGE_TAG}"
 
-            docker compose pull monitor
-
-            docker compose run --rm monitor
+          docker compose pull monitor
+          docker compose run --rm monitor
