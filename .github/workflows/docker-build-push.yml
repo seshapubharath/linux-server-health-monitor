@@ -31,6 +31,9 @@ jobs:
       - name: Run automated tests
         run: bash tests/test_shell_syntax.sh
 
+      - name: Run functional tests
+        run: bash tests/test_utils.sh
+
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
