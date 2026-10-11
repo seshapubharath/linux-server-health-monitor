@@ -13,7 +13,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
     log_error "Configuration file not found: $CONFIG_FILE"
     exit 1
 fi
-
+# shellcheck disable=SC1090
 source "$CONFIG_FILE"
 
 log_success "Configuration loaded successfully."
