@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build, Test, Push and Deploy
 
 on:
   push:
@@ -9,8 +9,32 @@ permissions:
   contents: read
 
 jobs:
-  build-and-push:
+  test:
+    name: Test Bash Scripts
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Check Bash syntax
+        run: bash -n scripts/*.sh
+
+      - name: Run ShellCheck
+        run: shellcheck --severity=warning scripts/*.sh
+
+      - name: Run automated tests
+        run: bash tests/test_shell_syntax.sh
+
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: Checkout repository
@@ -35,6 +59,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/linux-server-health-monitor:${{ github.sha }}
 
   deploy:
+    name: Deploy to EC2
     runs-on: [self-hosted, Linux, X64]
     needs: build-and-push
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -44,7 +69,12 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          set -euo pipefail
+
           cd /home/ec2-user/linux-server-health-monitor
+
+          git fetch origin main
+          git reset --hard origin/main
 
           echo "Deploying image tag: ${IMAGE_TAG}"
 
