@@ -34,6 +34,9 @@ jobs:
       - name: Run functional tests
         run: bash tests/test_utils.sh
 
+      - name: Test alert logic
+        run: bash tests/test_alert_logic.sh
+
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
