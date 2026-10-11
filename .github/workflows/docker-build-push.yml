@@ -28,6 +28,14 @@ jobs:
       - name: Run ShellCheck
         run: shellcheck --severity=warning scripts/*.sh
 
+      - name: Install Bats
+        run: |
+          git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats-core
+          sudo /tmp/bats-core/install.sh /usr/local
+
+      - name: Run Bats tests
+        run: bats tests/alert_logic.bats
+
       - name: Run automated tests
         run: bash tests/test_shell_syntax.sh
 
